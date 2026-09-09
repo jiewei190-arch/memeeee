@@ -14,10 +14,16 @@ beside Botty. It never accepts wallet keys and cannot place trades.
   Robinhood Chain with its official Blockscout explorer and holder distribution.
 - Requires consecutive passing observations and applies an alert cooldown.
 - Sends Slack alerts, heartbeats, daily summaries, and error notifications.
+- Sends an immediate unverified flash watch, then a separate approved verdict
+  after contract/holder and public-web research finishes.
+- Enriches qualified candidates with fresh web public X, Reddit, and web results
+  when a Brave Search key is configured; social hype can never override a failed
+  contract safety check.
 - Stores every evaluation and alert in SQLite for later forward-return analysis.
 - Tracks each alert continuously and posts a 24-hour outcome with current return,
   best observed return, and worst observed drawdown.
 - Exposes `GET /health` and `GET /status` on localhost port 8081 by default.
+- Exposes a live, chain-filterable dashboard at `GET /dashboard`.
 
 This version deliberately does **not** trade, request a wallet seed/private key,
 or claim an alert will be profitable. An alert is a research lead, not a buy order.
