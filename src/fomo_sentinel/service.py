@@ -3,10 +3,12 @@ from __future__ import annotations
 import asyncio
 import logging
 from collections import Counter
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 
 from .config import Settings
 from .dexscreener import DexScreenerClient
+from .models import ResearchVerdict
+from .research import SocialResearcher
 from .scoring import evaluate
 from .security import SecurityAnalyzer
 from .slack import SlackNotifier
@@ -18,10 +20,12 @@ log = logging.getLogger(__name__)
 class ScannerService:
     def __init__(self, cfg: Settings) -> None:
         self.cfg = cfg
+        self.market_only_cfg = cfg.model_copy(update={"require_security_check": False})
         self.feed = DexScreenerClient(cfg.chains)
         self.storage = Storage(cfg.database_path)
         self.slack = SlackNotifier(cfg.slack_webhook_url)
         self.security = SecurityAnalyzer(cfg)
+        self.research = SocialResearcher(cfg)
         self.running = False
         self.last_scan_at: str | None = None
         self.last_error: str | None = None
@@ -32,6 +36,7 @@ class ScannerService:
         self.unavailable: set[str] = set()
         self._last_heartbeat = datetime.now(UTC)
         self._last_summary_date: str | None = None
+        self._flash_sent: dict[str, datetime] = {}
 
     async def start(self) -> None:
         await self.storage.initialize()
@@ -45,6 +50,7 @@ class ScannerService:
         self.running = False
         await self.feed.close()
         await self.security.close()
+        await self.research.close()
         await self.slack.close()
 
     async def run_forever(self) -> None:
@@ -72,13 +78,26 @@ class ScannerService:
         self.last_scan_at = datetime.now(UTC).isoformat()
         for token in tokens:
             self.chain_observations[token.chain] += 1
-            preliminary = evaluate(token, self.cfg, None)
-            # Run paid/slow safety analysis only for candidates that pass market gates.
-            market_reasons = [r for r in preliminary.reasons if r != "security report unavailable"]
+            preliminary = evaluate(token, self.market_only_cfg)
             security = None
-            if not market_reasons:
-                security = await self.security.analyze(token)
-            result = evaluate(token, self.cfg, security)
+            research = ResearchVerdict(False, "not run")
+            if preliminary.status == "qualified":
+                flash_key = f"{token.chain}:{token.address}"
+                last_flash = self._flash_sent.get(flash_key)
+                if last_flash is None or datetime.now(UTC) - last_flash >= timedelta(
+                    hours=self.cfg.alert_cooldown_hours
+                ) and await self.slack.flash_alert(token, preliminary):
+                    self._flash_sent[flash_key] = datetime.now(UTC)
+                security_result, research_result = await asyncio.gather(
+                    self.security.analyze(token), self.research.research(token), return_exceptions=True
+                )
+                if not isinstance(security_result, Exception):
+                    security = security_result
+                if not isinstance(research_result, Exception):
+                    research = research_result
+                result = evaluate(token, self.cfg, security)
+            else:
+                result = preliminary
             await self.storage.record(token, result)
             if result.status != "qualified":
                 continue
@@ -87,7 +106,7 @@ class ScannerService:
                 continue
             if await self.storage.in_cooldown(token, self.cfg.alert_cooldown_hours):
                 continue
-            if await self.slack.alert(token, result):
+            if await self.slack.alert(token, result, research):
                 await self.storage.record_alert(token, result)
                 self.alerts_sent += 1
         await self._track_alerts()
