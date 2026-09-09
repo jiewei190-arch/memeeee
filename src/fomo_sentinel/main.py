@@ -6,8 +6,10 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
 
 from .config import get_settings
+from .dashboard import DASHBOARD_HTML
 from .service import ScannerService
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
@@ -39,10 +41,19 @@ async def status() -> dict[str, object]:
     return service.status()
 
 
+@app.get("/recent")
+async def recent(limit: int = 100) -> list[dict[str, object]]:
+    return await service.storage.recent_evaluations(limit)
+
+
+@app.get("/dashboard", response_class=HTMLResponse)
+async def dashboard() -> str:
+    return DASHBOARD_HTML
+
+
 def run() -> None:
     uvicorn.run("fomo_sentinel.main:app", host="0.0.0.0", port=8080)
 
 
 if __name__ == "__main__":
     run()
-

@@ -55,3 +55,15 @@ class SecurityVerdict:
     reasons: list[str] = field(default_factory=list)
     positives: list[str] = field(default_factory=list)
     top_10_holder_percent: float | None = None
+
+
+@dataclass(slots=True)
+class ResearchVerdict:
+    checked: bool
+    summary: str
+    x_mentions: int = 0
+    reddit_mentions: int = 0
+    web_mentions: int = 0
+    positive_signals: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    sources: list[str] = field(default_factory=list)

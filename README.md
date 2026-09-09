@@ -14,10 +14,36 @@ beside Botty. It never accepts wallet keys and cannot place trades.
   Robinhood Chain with its official Blockscout explorer and holder distribution.
 - Requires consecutive passing observations and applies an alert cooldown.
 - Sends Slack alerts, heartbeats, daily summaries, and error notifications.
+- Sends an immediate unverified flash watch, then a separate approved verdict
+  after contract/holder and public-web research finishes.
+- Enriches qualified candidates with fresh web public X, Reddit, and web results
+  when a Brave Search key is configured; social hype can never override a failed
+  contract safety check.
 - Stores every evaluation and alert in SQLite for later forward-return analysis.
 - Tracks each alert continuously and posts a 24-hour outcome with current return,
   best observed return, and worst observed drawdown.
 - Exposes `GET /health` and `GET /status` on localhost port 8081 by default.
+- Exposes a live, chain-filterable dashboard at `GET /dashboard`.
+- Sends an immediate unverified flash watch before slower safety/social enrichment,
+  followed by a qualified recap only when the risk gates pass.
+
+## Live analysis flow
+
+1. Discover fresh token/pool activity and categorize it by chain.
+2. Apply the under-24-hour, liquidity, volume, market-cap, trade-flow, and
+   non-parabolic momentum gates.
+3. Send a low-latency **FLASH WATCH** to Slack. This is explicitly not approval.
+4. Run contract, authority, honeypot/tax, holder-concentration, and explorer checks.
+5. Search the fresh public web for the exact contract and ticker, including indexed
+   X and Reddit pages; hype/scam language is flagged rather than rewarded.
+6. Send the full qualified recap with why it triggered, evidence, warnings, and links.
+7. Track the alert for 24 hours and report current, best, and worst observed returns.
+
+`BIRDEYE_API_KEY`, `BRAVE_SEARCH_API_KEY`, X, and Reddit credentials are optional
+configuration slots. Direct high-volume X/Reddit and whole-chain streaming require
+the corresponding approved/paid data access. Without those credentials the health
+and dashboard remain honest about unavailable enrichment instead of fabricating it.
+- Exposes a live, chain-filterable dashboard at `GET /dashboard`.
 
 This version deliberately does **not** trade, request a wallet seed/private key,
 or claim an alert will be profitable. An alert is a research lead, not a buy order.

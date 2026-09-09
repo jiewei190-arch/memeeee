@@ -128,6 +128,18 @@ class Storage:
             row = await cursor.fetchone()
         return int(row[0] or 0), int(row[1] or 0), int(row[2] or 0)
 
+    async def recent_evaluations(self, limit: int = 100) -> list[dict[str, object]]:
+        async with aiosqlite.connect(self.path) as db:
+            db.row_factory = aiosqlite.Row
+            cursor = await db.execute(
+                """SELECT observed_at, chain, address, symbol, price_usd, liquidity_usd,
+                market_cap_usd, volume_h1_usd, score, status, reasons_json
+                FROM evaluations ORDER BY id DESC LIMIT ?""",
+                (min(max(limit, 1), 500),),
+            )
+            rows = await cursor.fetchall()
+        return [dict(row) for row in rows]
+
     async def active_alerts(self) -> list[dict[str, object]]:
         cutoff = (datetime.now(UTC) - timedelta(hours=30)).isoformat()
         async with aiosqlite.connect(self.path) as db:

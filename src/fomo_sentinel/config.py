@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     chains: Annotated[list[str], NoDecode] = Field(
         default_factory=lambda: ["solana", "ethereum", "base", "bsc", "monad", "robinhoodchain"]
     )
-    scan_interval_seconds: int = Field(default=30, ge=15, le=3600)
+    scan_interval_seconds: int = Field(default=5, ge=2, le=3600)
     heartbeat_minutes: int = Field(default=60, ge=5, le=1440)
     daily_summary_hour_utc: int = Field(default=21, ge=0, le=23)
     database_path: str = "/data/fomo-sentinel.db"
@@ -35,6 +35,14 @@ class Settings(BaseSettings):
     rugcheck_base_url: str = "https://api.rugcheck.xyz/v1"
     goplus_base_url: str = "https://api.gopluslabs.io/api/v1"
     robinhood_blockscout_url: str = "https://robinhoodchain.blockscout.com"
+    birdeye_api_key: str = ""
+    brave_search_api_key: str = ""
+    x_bearer_token: str = ""
+    reddit_client_id: str = ""
+    reddit_client_secret: str = ""
+    reddit_user_agent: str = "memeeee/0.1"
+    social_search_enabled: bool = True
+    social_search_result_limit: int = Field(default=10, ge=1, le=20)
 
     @field_validator("chains", mode="before")
     @classmethod
