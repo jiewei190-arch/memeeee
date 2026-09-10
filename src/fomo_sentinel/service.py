@@ -17,6 +17,10 @@ from .storage import Storage
 log = logging.getLogger(__name__)
 
 
+def flash_due(last_flash: datetime | None, now: datetime, cooldown_hours: int) -> bool:
+    return last_flash is None or now - last_flash >= timedelta(hours=cooldown_hours)
+
+
 class ScannerService:
     def __init__(self, cfg: Settings) -> None:
         self.cfg = cfg
@@ -84,10 +88,11 @@ class ScannerService:
             if preliminary.status == "qualified":
                 flash_key = f"{token.chain}:{token.address}"
                 last_flash = self._flash_sent.get(flash_key)
-                if last_flash is None or datetime.now(UTC) - last_flash >= timedelta(
-                    hours=self.cfg.alert_cooldown_hours
-                ) and await self.slack.flash_alert(token, preliminary):
-                    self._flash_sent[flash_key] = datetime.now(UTC)
+                now = datetime.now(UTC)
+                if flash_due(last_flash, now, self.cfg.alert_cooldown_hours) and await self.slack.flash_alert(
+                    token, preliminary
+                ):
+                    self._flash_sent[flash_key] = now
                 security_result, research_result = await asyncio.gather(
                     self.security.analyze(token), self.research.research(token), return_exceptions=True
                 )
