@@ -12,8 +12,29 @@ class Settings(BaseSettings):
 
     slack_webhook_url: str = ""
     chains: Annotated[list[str], NoDecode] = Field(
-        default_factory=lambda: ["solana", "ethereum", "base", "bsc", "monad", "robinhoodchain"]
+        default_factory=lambda: [
+            "solana",
+            "ethereum",
+            "base",
+            "bsc",
+            "arbitrum",
+            "optimism",
+            "polygon",
+            "avalanche",
+            "linea",
+            "zksync",
+            "scroll",
+            "mantle",
+            "sei",
+            "sui",
+            "aptos",
+            "ton",
+            "monad",
+            "robinhoodchain",
+        ]
     )
+    geckoterminal_enabled: bool = True
+    geckoterminal_networks_per_scan: int = Field(default=2, ge=1, le=3)
     scan_interval_seconds: int = Field(default=5, ge=2, le=3600)
     heartbeat_minutes: int = Field(default=60, ge=5, le=1440)
     daily_summary_hour_utc: int = Field(default=21, ge=0, le=23)

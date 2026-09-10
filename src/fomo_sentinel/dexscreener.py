@@ -64,7 +64,9 @@ class DexScreenerClient:
                         seen_pairs.add((parsed.chain, parsed.pair_address))
         return snapshots, source_failures
 
-    async def fetch_token(self, chain: str, address: str, pair_address: str = "") -> TokenSnapshot | None:
+    async def fetch_token(
+        self, chain: str, address: str, pair_address: str = ""
+    ) -> TokenSnapshot | None:
         payload = await self._get_json(f"/tokens/v1/{chain}/{address}")
         parsed = [item for item in (self._parse_pair(pair) for pair in payload or []) if item]
         if pair_address:
@@ -113,4 +115,5 @@ class DexScreenerClient:
             price_change_m5=self._number(price_change.get("m5")),
             price_change_h1=self._number(price_change.get("h1")),
             pair_created_at=created_at,
+            source="dexscreener",
         )

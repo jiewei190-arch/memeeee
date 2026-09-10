@@ -12,6 +12,15 @@ EVM_CHAIN_IDS = {
     "ethereum": "1",
     "bsc": "56",
     "base": "8453",
+    "arbitrum": "42161",
+    "optimism": "10",
+    "polygon": "137",
+    "avalanche": "43114",
+    "linea": "59144",
+    "zksync": "324",
+    "scroll": "534352",
+    "mantle": "5000",
+    "sei": "1329",
     "monad": "143",
     "robinhoodchain": "4663",
     "robinhood": "4663",
@@ -36,16 +45,22 @@ class SecurityAnalyzer:
                 goplus, blockscout = await asyncio.gather(
                     self._goplus(token), self._robinhood_blockscout(token), return_exceptions=True
                 )
-                verdicts = [item for item in (goplus, blockscout) if isinstance(item, SecurityVerdict)]
+                verdicts = [
+                    item for item in (goplus, blockscout) if isinstance(item, SecurityVerdict)
+                ]
                 return self._combine("GoPlus + Robinhood Blockscout", verdicts)
             if token.chain in EVM_CHAIN_IDS:
                 return await self._goplus(token)
         except (httpx.HTTPError, ValueError, TypeError, KeyError) as exc:
-            return SecurityVerdict(False, False, "security feed", [f"security check failed: {type(exc).__name__}"])
+            return SecurityVerdict(
+                False, False, "security feed", [f"security check failed: {type(exc).__name__}"]
+            )
         return SecurityVerdict(False, False, "none", ["no security adapter for chain"])
 
     async def _rugcheck(self, token: TokenSnapshot) -> SecurityVerdict:
-        response = await self.client.get(f"{self.cfg.rugcheck_base_url}/tokens/{token.address}/report")
+        response = await self.client.get(
+            f"{self.cfg.rugcheck_base_url}/tokens/{token.address}/report"
+        )
         response.raise_for_status()
         data = response.json()
         reasons: list[str] = []
@@ -63,7 +78,9 @@ class SecurityAnalyzer:
         for risk in data.get("risks") or []:
             level = str(risk.get("level") or "").lower()
             if level in {"danger", "critical"}:
-                reasons.append(str(risk.get("name") or risk.get("description") or "critical contract risk"))
+                reasons.append(
+                    str(risk.get("name") or risk.get("description") or "critical contract risk")
+                )
         top_percent = self._solana_top_holder_percent(data)
         if top_percent is None:
             reasons.append("top-holder concentration unavailable")
@@ -119,7 +136,9 @@ class SecurityAnalyzer:
                 reasons.append(f"sell tax is {sell_tax:.1f}%")
         except (TypeError, ValueError):
             reasons.append("token tax could not be verified")
-        positives = [] if reasons else ["no critical GoPlus contract flags", "buy/sell taxes within limit"]
+        positives = (
+            [] if reasons else ["no critical GoPlus contract flags", "buy/sell taxes within limit"]
+        )
         return SecurityVerdict(True, not reasons, "GoPlus", reasons, positives)
 
     async def _robinhood_blockscout(self, token: TokenSnapshot) -> SecurityVerdict:
@@ -145,8 +164,12 @@ class SecurityAnalyzer:
             reasons.append("explorer scam flag")
         try:
             supply = float(token_data.get("total_supply") or 0)
-            holder_values = [float(item.get("value") or 0) for item in (holders_data.get("items") or [])[:10]]
-            top_percent = sum(holder_values) / supply * 100 if supply > 0 and holder_values else None
+            holder_values = [
+                float(item.get("value") or 0) for item in (holders_data.get("items") or [])[:10]
+            ]
+            top_percent = (
+                sum(holder_values) / supply * 100 if supply > 0 and holder_values else None
+            )
         except (TypeError, ValueError, ZeroDivisionError):
             top_percent = None
         if top_percent is None:
@@ -155,7 +178,9 @@ class SecurityAnalyzer:
             reasons.append(f"top holders control {top_percent:.1f}%")
         else:
             positives.append(f"top-holder concentration {top_percent:.1f}%")
-        return SecurityVerdict(True, not reasons, "Robinhood Blockscout", reasons, positives, top_percent)
+        return SecurityVerdict(
+            True, not reasons, "Robinhood Blockscout", reasons, positives, top_percent
+        )
 
     @staticmethod
     def _combine(provider: str, verdicts: list[SecurityVerdict]) -> SecurityVerdict:
@@ -164,7 +189,11 @@ class SecurityAnalyzer:
         checked = any(item.checked for item in verdicts)
         reasons = [reason for item in verdicts for reason in item.reasons]
         positives = [positive for item in verdicts for positive in item.positives]
-        concentrations = [item.top_10_holder_percent for item in verdicts if item.top_10_holder_percent is not None]
+        concentrations = [
+            item.top_10_holder_percent
+            for item in verdicts
+            if item.top_10_holder_percent is not None
+        ]
         return SecurityVerdict(
             checked=checked,
             safe=checked and all(item.safe for item in verdicts if item.checked),
@@ -173,4 +202,3 @@ class SecurityAnalyzer:
             positives=positives,
             top_10_holder_percent=max(concentrations) if concentrations else None,
         )
-

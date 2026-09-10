@@ -8,6 +8,9 @@ on its own server. It never accepts wallet keys and cannot place trades.
 - Prioritizes Solana and Robinhood Chain while categorizing every alert by chain.
 - Watches only pairs created in the last 24 hours for 1–2 day breakout candidates.
 - Discovers promoted/recent token profiles through the official DEX Screener API.
+- Rotates through GeckoTerminal new-pool feeds for Solana, Robinhood Chain,
+  Ethereum, Base, BNB Chain, Arbitrum, Optimism, Polygon, Avalanche, Linea,
+  zkSync, Scroll, Mantle, Sei, Sui, Aptos, TON, and Monad.
 - Scores momentum, liquidity, volume, trade flow, and liquidity/market-cap.
 - Fails closed on safety: missing/inconclusive security data cannot produce an alert.
 - Checks Solana through RugCheck; checks EVM chains through GoPlus; corroborates
@@ -43,7 +46,10 @@ on its own server. It never accepts wallet keys and cannot place trades.
 configuration slots. Direct high-volume X/Reddit and whole-chain streaming require
 the corresponding approved/paid data access. Without those credentials the health
 and dashboard remain honest about unavailable enrichment instead of fabricating it.
-- Exposes a live, chain-filterable dashboard at `GET /dashboard`.
+
+The free configuration is multi-source polling, not a claim of every transaction
+on every blockchain. GeckoTerminal networks are staggered to remain within free
+rate limits. The status API and dashboard identify each feed and its actual mode.
 
 This version deliberately does **not** trade, request a wallet seed/private key,
 or claim an alert will be profitable. An alert is a research lead, not a buy order.

@@ -44,3 +44,12 @@ Stop or restart only this bot:
 sudo systemctl stop memeeee
 sudo systemctl restart memeeee
 ```
+
+Upgrade an existing VM to the free multi-source feed:
+
+```bash
+cd ~/memeeee
+git pull --ff-only
+sudo bash deploy/oracle-cloud/install.sh
+sudo bash deploy/oracle-cloud/enable-multichain.sh
+```

@@ -31,7 +31,8 @@ class Storage:
                     volume_h1_usd REAL NOT NULL,
                     score INTEGER NOT NULL,
                     status TEXT NOT NULL,
-                    reasons_json TEXT NOT NULL
+                    reasons_json TEXT NOT NULL,
+                    source TEXT NOT NULL DEFAULT 'unknown'
                 );
                 CREATE INDEX IF NOT EXISTS ix_eval_token_time
                     ON evaluations(chain, address, observed_at DESC);
@@ -66,6 +67,12 @@ class Storage:
                 );
                 """
             )
+            cursor = await db.execute("PRAGMA table_info(evaluations)")
+            columns = {row[1] for row in await cursor.fetchall()}
+            if "source" not in columns:
+                await db.execute(
+                    "ALTER TABLE evaluations ADD COLUMN source TEXT NOT NULL DEFAULT 'unknown'"
+                )
             await db.commit()
 
     async def record(self, token: TokenSnapshot, result: Evaluation) -> None:
@@ -73,13 +80,22 @@ class Storage:
             await db.execute(
                 """INSERT INTO evaluations
                 (observed_at, chain, address, pair_address, symbol, price_usd, liquidity_usd,
-                 market_cap_usd, volume_h1_usd, score, status, reasons_json)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                 market_cap_usd, volume_h1_usd, score, status, reasons_json, source)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
-                    token.discovered_at.isoformat(), token.chain, token.address,
-                    token.pair_address, token.symbol, token.price_usd, token.liquidity_usd,
-                    token.market_cap_usd, token.volume_h1_usd, result.score, result.status,
+                    token.discovered_at.isoformat(),
+                    token.chain,
+                    token.address,
+                    token.pair_address,
+                    token.symbol,
+                    token.price_usd,
+                    token.liquidity_usd,
+                    token.market_cap_usd,
+                    token.volume_h1_usd,
+                    result.score,
+                    result.status,
                     json.dumps(result.reasons),
+                    token.source,
                 ),
             )
             await db.commit()
@@ -110,8 +126,13 @@ class Storage:
                 (sent_at, chain, address, pair_address, symbol, score, price_usd)
                 VALUES (?, ?, ?, ?, ?, ?, ?)""",
                 (
-                    datetime.now(UTC).isoformat(), token.chain, token.address,
-                    token.pair_address, token.symbol, result.score, token.price_usd,
+                    datetime.now(UTC).isoformat(),
+                    token.chain,
+                    token.address,
+                    token.pair_address,
+                    token.symbol,
+                    result.score,
+                    token.price_usd,
                 ),
             )
             await db.commit()
@@ -133,7 +154,7 @@ class Storage:
             db.row_factory = aiosqlite.Row
             cursor = await db.execute(
                 """SELECT observed_at, chain, address, symbol, price_usd, liquidity_usd,
-                market_cap_usd, volume_h1_usd, score, status, reasons_json
+                market_cap_usd, volume_h1_usd, score, status, reasons_json, source
                 FROM evaluations ORDER BY id DESC LIMIT ?""",
                 (min(max(limit, 1), 500),),
             )
@@ -186,8 +207,11 @@ class Storage:
                 (alert_id, reported_at, current_return_pct, peak_return_pct, max_drawdown_pct)
                 VALUES (?, ?, ?, ?, ?)""",
                 (
-                    alert_id, datetime.now(UTC).isoformat(), current_return,
-                    peak_return, max_drawdown,
+                    alert_id,
+                    datetime.now(UTC).isoformat(),
+                    current_return,
+                    peak_return,
+                    max_drawdown,
                 ),
             )
             await db.commit()
