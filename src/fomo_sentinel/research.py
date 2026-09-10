@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import re
 from typing import Any
 
@@ -24,15 +25,56 @@ class SocialResearcher:
             return ResearchVerdict(False, "social research disabled")
         if not self.cfg.brave_search_api_key:
             return ResearchVerdict(False, "web-search key not configured")
-        query = f'"{token.address}" OR "${token.symbol}" crypto token'
+
+        # Search the exact contract separately from social domains. Keeping the
+        # address in every query sharply reduces false matches from reused meme
+        # tickers, while separate X and Reddit searches prevent general web
+        # results from crowding social posts out of the result limit.
+        address = token.address.replace('"', "")
+        symbol = token.symbol.replace('"', "")
+        name = token.name.replace('"', "")
+        queries = [
+            f'"{address}" crypto token',
+            f'site:x.com ("{address}" OR ("{name}" "${symbol}")) crypto',
+            f'site:reddit.com ("{address}" OR ("{name}" "${symbol}")) crypto',
+        ]
+        responses = await asyncio.gather(
+            *(self._search(query) for query in queries), return_exceptions=True
+        )
+        results: list[dict[str, Any]] = []
+        failures = 0
+        seen_urls: set[str] = set()
+        for response in responses:
+            if isinstance(response, Exception):
+                failures += 1
+                continue
+            for item in response:
+                url = str(item.get("url") or "")
+                dedupe_key = url or f"{item.get('title', '')}:{item.get('description', '')}"
+                if dedupe_key in seen_urls:
+                    continue
+                seen_urls.add(dedupe_key)
+                results.append(item)
+        verdict = self._summarize(results, token)
+        if failures:
+            verdict.warnings.append(f"{failures} of 3 web research queries failed")
+            verdict.summary += f"; {3 - failures}/3 searches completed"
+        else:
+            verdict.summary += "; 3/3 searches completed"
+        return verdict
+
+    async def _search(self, query: str) -> list[dict[str, Any]]:
         response = await self.client.get(
             "https://api.search.brave.com/res/v1/web/search",
-            params={"q": query, "count": self.cfg.social_search_result_limit, "freshness": "pd"},
+            params={
+                "q": query,
+                "count": self.cfg.social_search_result_limit,
+                "freshness": "pd",
+            },
             headers={"X-Subscription-Token": self.cfg.brave_search_api_key},
         )
         response.raise_for_status()
-        results = ((response.json().get("web") or {}).get("results") or [])
-        return self._summarize(results, token)
+        return (response.json().get("web") or {}).get("results") or []
 
     def _summarize(self, results: list[dict[str, Any]], token: TokenSnapshot) -> ResearchVerdict:
         x_count = 0
@@ -43,9 +85,7 @@ class SocialResearcher:
         hype_terms = re.compile(
             r"\b(100x|1000x|guaranteed|easy money|ape now|can't lose)\b", re.IGNORECASE
         )
-        scam_terms = re.compile(
-            r"\b(rug|honeypot|scam|can't sell|drainer)\b", re.IGNORECASE
-        )
+        scam_terms = re.compile(r"\b(rug|honeypot|scam|can't sell|drainer)\b", re.IGNORECASE)
         address_hits = 0
         for item in results:
             url = str(item.get("url") or "")

@@ -18,7 +18,7 @@ import sys
 
 path = Path(sys.argv[1])
 values = {
-    "CHAINS": "solana,ethereum,base,bsc,arbitrum,optimism,polygon,avalanche,linea,zksync,scroll,mantle,sei,sui,aptos,ton,monad,robinhoodchain",
+    "CHAINS": "solana,robinhoodchain,base,ethereum,polygon",
     "GECKOTERMINAL_ENABLED": "true",
     "GECKOTERMINAL_NETWORKS_PER_SCAN": "2",
 }

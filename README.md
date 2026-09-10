@@ -5,12 +5,12 @@ on its own server. It never accepts wallet keys and cannot place trades.
 
 ## What v0.1 does
 
-- Prioritizes Solana and Robinhood Chain while categorizing every alert by chain.
+- Focuses on Solana, Robinhood Chain, Base, Ethereum, and Polygon while
+  categorizing every alert by chain.
 - Watches only pairs created in the last 24 hours for 1–2 day breakout candidates.
 - Discovers promoted/recent token profiles through the official DEX Screener API.
 - Rotates through GeckoTerminal new-pool feeds for Solana, Robinhood Chain,
-  Ethereum, Base, BNB Chain, Arbitrum, Optimism, Polygon, Avalanche, Linea,
-  zkSync, Scroll, Mantle, Sei, Sui, Aptos, TON, and Monad.
+  Base, Ethereum, and Polygon.
 - Scores momentum, liquidity, volume, trade flow, and liquidity/market-cap.
 - Fails closed on safety: missing/inconclusive security data cannot produce an alert.
 - Checks Solana through RugCheck; checks EVM chains through GoPlus; corroborates
@@ -19,9 +19,10 @@ on its own server. It never accepts wallet keys and cannot place trades.
 - Sends Slack alerts, heartbeats, daily summaries, and error notifications.
 - Sends an immediate unverified flash watch, then a separate approved verdict
   after contract/holder and public-web research finishes.
-- Enriches qualified candidates with fresh web public X, Reddit, and web results
-  when a Brave Search key is configured; social hype can never override a failed
-  contract safety check.
+- Enriches market-qualified candidates with three separate fresh searches for
+  the exact contract across the public web, indexed X posts, and indexed Reddit
+  posts when a Brave Search key is configured; social hype can never override a
+  failed contract safety check.
 - Stores every evaluation and alert in SQLite for later forward-return analysis.
 - Tracks each alert continuously and posts a 24-hour outcome with current return,
   best observed return, and worst observed drawdown.

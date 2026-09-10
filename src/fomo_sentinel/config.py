@@ -14,23 +14,10 @@ class Settings(BaseSettings):
     chains: Annotated[list[str], NoDecode] = Field(
         default_factory=lambda: [
             "solana",
-            "ethereum",
-            "base",
-            "bsc",
-            "arbitrum",
-            "optimism",
-            "polygon",
-            "avalanche",
-            "linea",
-            "zksync",
-            "scroll",
-            "mantle",
-            "sei",
-            "sui",
-            "aptos",
-            "ton",
-            "monad",
             "robinhoodchain",
+            "base",
+            "ethereum",
+            "polygon",
         ]
     )
     geckoterminal_enabled: bool = True
