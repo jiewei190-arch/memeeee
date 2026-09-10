@@ -6,7 +6,7 @@ from collections import Counter
 from datetime import UTC, datetime, timedelta
 
 from .config import Settings
-from .dexscreener import DexScreenerClient
+from .market_feed import MarketFeed
 from .models import ResearchVerdict
 from .research import SocialResearcher
 from .scoring import evaluate
@@ -25,7 +25,7 @@ class ScannerService:
     def __init__(self, cfg: Settings) -> None:
         self.cfg = cfg
         self.market_only_cfg = cfg.model_copy(update={"require_security_check": False})
-        self.feed = DexScreenerClient(cfg.chains)
+        self.feed = MarketFeed(cfg)
         self.storage = Storage(cfg.database_path)
         self.slack = SlackNotifier(cfg.slack_webhook_url)
         self.security = SecurityAnalyzer(cfg)
@@ -89,12 +89,14 @@ class ScannerService:
                 flash_key = f"{token.chain}:{token.address}"
                 last_flash = self._flash_sent.get(flash_key)
                 now = datetime.now(UTC)
-                if flash_due(last_flash, now, self.cfg.alert_cooldown_hours) and await self.slack.flash_alert(
-                    token, preliminary
-                ):
+                if flash_due(
+                    last_flash, now, self.cfg.alert_cooldown_hours
+                ) and await self.slack.flash_alert(token, preliminary):
                     self._flash_sent[flash_key] = now
                 security_result, research_result = await asyncio.gather(
-                    self.security.analyze(token), self.research.research(token), return_exceptions=True
+                    self.security.analyze(token),
+                    self.research.research(token),
+                    return_exceptions=True,
                 )
                 if not isinstance(security_result, Exception):
                     security = security_result
@@ -106,7 +108,9 @@ class ScannerService:
             await self.storage.record(token, result)
             if result.status != "qualified":
                 continue
-            confirmations = await self.storage.confirmation_count(token, self.cfg.required_confirmations)
+            confirmations = await self.storage.confirmation_count(
+                token, self.cfg.required_confirmations
+            )
             if confirmations < self.cfg.required_confirmations:
                 continue
             if await self.storage.in_cooldown(token, self.cfg.alert_cooldown_hours):
@@ -147,7 +151,9 @@ class ScannerService:
         today = now.date().isoformat()
         if now.hour == self.cfg.daily_summary_hour_utc and self._last_summary_date != today:
             evaluations, unique_tokens, qualifying = await self.storage.daily_counts()
-            chain_text = ", ".join(f"{k}: {v}" for k, v in sorted(self.chain_observations.items())) or "none"
+            chain_text = (
+                ", ".join(f"{k}: {v}" for k, v in sorted(self.chain_observations.items())) or "none"
+            )
             await self.slack.send(
                 "📊 *Fomo Sentinel — 24h summary*\n"
                 f"Evaluations: `{evaluations}` | Unique tokens: `{unique_tokens}` | "
@@ -172,4 +178,5 @@ class ScannerService:
             "observed_chains": sorted(observed),
             "not_yet_observed": sorted(set(self.cfg.chains) - observed),
             "feed_failures": sorted(self.unavailable),
+            "feeds": self.feed.status(),
         }
