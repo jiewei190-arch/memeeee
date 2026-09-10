@@ -22,6 +22,7 @@ class TokenSnapshot:
     price_change_m5: float
     price_change_h1: float
     pair_created_at: datetime | None
+    source: str = "dexscreener"
     discovered_at: datetime = field(default_factory=lambda: datetime.now(UTC))
 
     @property
