@@ -1,7 +1,7 @@
 # Fomo Sentinel
 
 Fomo Sentinel is an alerts-only, 24/7 meme-coin market scanner designed to run
-beside Botty. It never accepts wallet keys and cannot place trades.
+on its own server. It never accepts wallet keys and cannot place trades.
 
 ## What v0.1 does
 
@@ -57,6 +57,9 @@ docker compose up -d --build
 docker compose logs -f --tail=100
 curl http://127.0.0.1:8081/health
 ```
+
+For a persistent standalone Oracle Cloud systemd deployment, follow
+[`deploy/oracle-cloud/README.md`](deploy/oracle-cloud/README.md).
 
 ## Before using real-money decisions
 

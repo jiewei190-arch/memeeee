@@ -1,0 +1,18 @@
+[Unit]
+Description=memeeee 24/7 meme-coin intelligence scanner
+Wants=network-online.target
+After=network-online.target docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=10
+TimeoutStopSec=30
+ExecStartPre=-/usr/bin/docker rm -f memeeee
+ExecStart=/usr/bin/docker run --name memeeee --env-file /etc/memeeee/memeeee.env --publish 127.0.0.1:8081:8080 --volume /var/lib/memeeee:/data memeeee-oracle:latest
+ExecStop=/usr/bin/docker stop --time 20 memeeee
+
+[Install]
+WantedBy=multi-user.target
+
