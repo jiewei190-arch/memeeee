@@ -3,6 +3,7 @@ from datetime import UTC, datetime, timedelta
 from fomo_sentinel.config import Settings
 from fomo_sentinel.models import SecurityVerdict, TokenSnapshot
 from fomo_sentinel.scoring import evaluate
+from fomo_sentinel.service import flash_due
 
 
 def token(**overrides):
@@ -51,3 +52,10 @@ def test_missing_security_report_fails_closed():
     result = evaluate(token(), Settings(database_path=":memory:"))
     assert result.status == "rejected"
     assert "security report unavailable" in result.reasons
+
+
+def test_first_flash_is_due_immediately():
+    now = datetime.now(UTC)
+    assert flash_due(None, now, cooldown_hours=6)
+    assert not flash_due(now - timedelta(hours=1), now, cooldown_hours=6)
+    assert flash_due(now - timedelta(hours=6), now, cooldown_hours=6)
