@@ -15,9 +15,9 @@
   <link rel="preload" as="image" href="assets/ritual-poster.jpg" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="is-loading">
+<body class="is-loading" data-page="home">
 
-  <!-- Preloader -->
+  <!-- Preloader (first visit per session only) -->
   <div class="loader" aria-hidden="true">
     <div class="loader__word">
       <span>S</span><span>H</span><span>O</span><span>G</span><span>A</span>
@@ -32,12 +32,12 @@
 
   <!-- Nav -->
   <header class="nav" id="top">
-    <a href="#top" class="nav__logo" aria-label="SHOGA home">SHOGA</a>
+    <a href="index.html" class="nav__logo" aria-label="SHOGA home">SHOGA</a>
     <nav class="nav__links" aria-label="Primary">
-      <a href="#shop">Shop</a>
-      <a href="#formula">Our Formula</a>
-      <a href="#ritual">The Ritual</a>
-      <a href="#about">About</a>
+      <a href="shop.html">Shop</a>
+      <a href="ritual.html">The Ritual</a>
+      <a href="ritual.html#formula">Formula</a>
+      <a href="about.html">About</a>
     </nav>
     <div class="nav__actions">
       <button class="icon-btn cart-toggle" aria-label="Open cart">
@@ -51,15 +51,15 @@
   </header>
 
   <div class="mobile-menu" aria-hidden="true" data-lenis-prevent>
-    <a href="#shop">Shop</a>
-    <a href="#formula">Our Formula</a>
-    <a href="#ritual">The Ritual</a>
-    <a href="#about">About</a>
+    <a href="shop.html">Shop</a>
+    <a href="ritual.html">The Ritual</a>
+    <a href="ritual.html#formula">Formula</a>
+    <a href="about.html">About</a>
   </div>
 
   <main>
     <!-- HERO -->
-    <section class="hero" data-cursor-light>
+    <section class="hero">
       <video class="hero__video" autoplay muted loop playsinline preload="auto" poster="assets/ritual-poster.jpg">
         <source src="assets/ritual.mp4" type="video/mp4" />
       </video>
@@ -68,12 +68,12 @@
       <div class="hero__light"></div>
 
       <div class="hero__content">
-        <p class="eyebrow hero__eyebrow" data-split>The Confidence Ritual</p>
+        <p class="eyebrow hero__eyebrow">The Confidence Ritual</p>
         <h1 class="hero__title" aria-label="SHOGA">
           <span><b>S</b></span><span><b>H</b></span><span><b>O</b></span><span><b>G</b></span><span><b>A</b></span>
         </h1>
         <p class="hero__sub">Beauty ritual from within</p>
-        <a href="#shop" class="btn btn--outline magnetic">
+        <a href="shop.html" class="btn btn--outline magnetic">
           <span>Shop White Peach</span>
           <svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M0 6h22M17 1l5 5-5 5"/></svg>
         </a>
@@ -111,55 +111,6 @@
       </div>
     </section>
 
-    <!-- WHAT YOU'RE REALLY BUYING (horizontal) -->
-    <section class="buying" id="buying">
-      <div class="buying__sticky">
-        <header class="buying__head">
-          <p class="eyebrow">What you're really buying</p>
-          <h2 class="display">Four quiet <em>superpowers</em></h2>
-        </header>
-        <div class="buying__track">
-          <article class="feel">
-            <div class="feel__img" data-cursor="view"><img src="assets/hold.jpg" alt="A woman holding the SHOGA beauty ritual box against her shoulder" loading="lazy" /></div>
-            <div class="feel__body">
-              <span class="feel__num">01</span>
-              <h3>Confidence</h3>
-              <p class="feel__tag">Formulated for skin elasticity</p>
-              <p>For the close-up conversation, the morning-after light, the moment someone leans in. Skin that moves with you.</p>
-            </div>
-          </article>
-          <article class="feel">
-            <div class="feel__img" data-cursor="view"><img src="assets/skin.jpg" alt="Warm light across a bare shoulder and collarbone" loading="lazy" /></div>
-            <div class="feel__body">
-              <span class="feel__num">02</span>
-              <h3>Clarity</h3>
-              <p class="feel__tag">Formulated for hydration</p>
-              <p>Dewy without trying. The kind of bare-faced Sunday that makes you skip the foundation and keep the plans.</p>
-            </div>
-          </article>
-          <article class="feel">
-            <div class="feel__img" data-cursor="view"><img src="assets/peach-macro.jpg" alt="Close-up of a dewy white peach" loading="lazy" /></div>
-            <div class="feel__body">
-              <span class="feel__num">03</span>
-              <h3>Radiance</h3>
-              <p class="feel__tag">Formulated for glow</p>
-              <p>A lit-from-within softness that no filter quite fakes. You'll notice it first. Then they will.</p>
-            </div>
-          </article>
-          <article class="feel">
-            <div class="feel__img" data-cursor="view"><img src="assets/emboss.jpg" alt="Embossed wave lines on the SHOGA collagen box in raking light" loading="lazy" /></div>
-            <div class="feel__body">
-              <span class="feel__num">04</span>
-              <h3>Firmness</h3>
-              <p class="feel__tag">Formulated for structure</p>
-              <p>Shoulders back, chin up. The posture of someone who isn't hiding anything — because they don't need to.</p>
-            </div>
-          </article>
-        </div>
-        <div class="buying__progress"><i></i></div>
-      </div>
-    </section>
-
     <!-- UNBOX (pinned zoom scene) -->
     <section class="unbox" aria-label="The box">
       <div class="unbox__sticky">
@@ -173,74 +124,51 @@
       </div>
     </section>
 
-    <!-- SHOP -->
-    <section class="shop" id="shop">
-      <div class="shop__gallery reveal">
-        <div class="shop__main" data-cursor="view">
-          <img src="assets/product-peach.jpg" alt="SHOGA Collagen White Peach box surrounded by fresh peaches on silk" id="shopMain" />
-        </div>
-        <div class="shop__thumbs" role="tablist" aria-label="Product images">
-          <button class="is-active" data-src="assets/product-peach.jpg" data-alt="SHOGA Collagen White Peach box surrounded by fresh peaches on silk"><img src="assets/product-peach.jpg" alt="" loading="lazy" /></button>
-          <button data-src="assets/daylight.jpg" data-alt="SHOGA Collagen White Peach box in daylight with peach blossom"><img src="assets/daylight.jpg" alt="" loading="lazy" /></button>
-          <button data-src="assets/box-night.jpg" data-alt="SHOGA Collagen box in warm evening light"><img src="assets/box-night.jpg" alt="" loading="lazy" /></button>
-          <button data-src="assets/hold.jpg" data-alt="A woman holding the SHOGA box"><img src="assets/hold.jpg" alt="" loading="lazy" /></button>
-        </div>
+    <!-- FILM: autoplaying ritual video with timed chapters -->
+    <section class="film" id="film" aria-label="The ritual film">
+      <video class="film__video" muted loop playsinline preload="metadata" poster="assets/step-box.jpg">
+        <source src="assets/ritual.mp4" type="video/mp4" />
+      </video>
+      <div class="film__shade"></div>
+
+      <div class="film__cap" data-in="0.2" data-out="3.1">
+        <p class="eyebrow">Chapter I · 07:00</p>
+        <h3>Every morning<br/><em>starts the same.</em></h3>
+      </div>
+      <div class="film__cap" data-in="3.2" data-out="5.5">
+        <p class="eyebrow">Chapter II · Tear, pour</p>
+        <h3>Ten seconds.<br/><em>One glass.</em></h3>
+      </div>
+      <div class="film__cap" data-in="5.6" data-out="7.2">
+        <p class="eyebrow">Chapter III · Sip</p>
+        <h3>Ripe white peach.<br/><em>Nothing else.</em></h3>
       </div>
 
-      <div class="shop__info">
-        <p class="eyebrow reveal">White Peach</p>
-        <h2 class="display reveal">A Radiant <em>Ritual</em></h2>
-        <p class="lead reveal">A daily beauty supplement with collagen, vitamins and antioxidants to support healthy, firm and luminous skin. One sachet. One glass. Ten seconds that change how you walk into a room.</p>
+      <div class="film__hud">
+        <button class="film__sound" type="button" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="film__wave" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/><path class="film__mute" d="M16 9l5 6M21 9l-5 6"/></svg>
+          <span>Sound off</span>
+        </button>
+        <span class="film__time" aria-hidden="true">00:00</span>
+        <span class="film__bar" aria-hidden="true"><i></i></span>
+        <span aria-hidden="true">00:10</span>
+      </div>
+    </section>
 
-        <ul class="facts reveal">
-          <li><b data-count="30">30</b><span>sachets</span></li>
-          <li><b data-count="1">1</b><span>a day</span></li>
-          <li><b data-count="10" data-suffix="s">10s</b><span>ritual</span></li>
+    <!-- RITUAL CLUB teaser -->
+    <section class="club-teaser">
+      <div class="club-teaser__img" data-cursor="view"><img src="assets/hold.jpg" alt="A woman holding the SHOGA beauty ritual box" loading="lazy" /></div>
+      <div class="club-teaser__body">
+        <p class="eyebrow reveal">The Ritual Club</p>
+        <h2 class="display reveal">Confidence,<br/><em>on repeat.</em></h2>
+        <p class="lead reveal">Collagen works when you keep showing up. Join the Ritual Club and a fresh box lands every 30 days, so the habit never breaks.</p>
+        <ul class="perks reveal">
+          <li>Save 15% on every box</li>
+          <li>Free shipping, always</li>
+          <li>Skip, pause or cancel in two clicks</li>
         </ul>
-
-        <fieldset class="plans reveal">
-          <legend class="sr-only">Purchase option</legend>
-          <label class="plan">
-            <input type="radio" name="plan" value="sub" checked />
-            <span class="plan__box">
-              <span class="plan__row"><span class="plan__name">The Ritual Subscription</span><span class="plan__price" data-price-sub></span></span>
-              <span class="plan__note">Delivered every 30 days · Save 15% · Pause or cancel anytime</span>
-            </span>
-          </label>
-          <label class="plan">
-            <input type="radio" name="plan" value="once" />
-            <span class="plan__box">
-              <span class="plan__row"><span class="plan__name">One-time purchase</span><span class="plan__price" data-price-once></span></span>
-              <span class="plan__note">A single 30-day box</span>
-            </span>
-          </label>
-        </fieldset>
-
-        <div class="buy reveal">
-          <div class="qty">
-            <button type="button" data-qty="-1" aria-label="Decrease quantity">−</button>
-            <output id="qty">1</output>
-            <button type="button" data-qty="1" aria-label="Increase quantity">+</button>
-          </div>
-          <button class="btn btn--solid magnetic" id="addToCart">
-            <span>Add to cart — <span data-total></span></span>
-          </button>
-        </div>
-
-        <div class="accordion reveal">
-          <details>
-            <summary>What's inside</summary>
-            <p>Hydrolysed collagen peptides, vitamin C, hyaluronic acid and white peach extract. Naturally flavoured, no added sugar. See the full formula below.</p>
-          </details>
-          <details>
-            <summary>How to take it</summary>
-            <p>Tear one sachet into 200–250 ml of cold water, juice or your morning smoothie. Stir, sip, go. Best taken daily at the same time — consistency is the ritual.</p>
-          </details>
-          <details>
-            <summary>Shipping &amp; returns</summary>
-            <p>Free shipping on subscriptions. If your first box doesn't feel like you, tell us within 30 days.</p>
-          </details>
-        </div>
+        <div class="club-teaser__price reveal"><span data-price-sub-only></span><small>per month · was <s data-price-once></s></small></div>
+        <a href="shop.html" class="btn btn--solid magnetic reveal"><span>Join the Ritual Club</span><svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M0 6h22M17 1l5 5-5 5"/></svg></a>
       </div>
     </section>
 
@@ -260,141 +188,13 @@
       </div>
     </section>
 
-    <!-- RITUAL -->
-    <section class="ritual" id="ritual">
-      <header class="section-head">
-        <p class="eyebrow reveal">The Ritual</p>
-        <h2 class="display reveal">Ten seconds.<br/><em>Every single day.</em></h2>
-      </header>
-      <ol class="steps">
-        <li class="step reveal" data-speed="0.04">
-          <div class="step__img tilt" data-cursor="view"><img src="assets/step-box.jpg" alt="SHOGA box beside a whole and a halved white peach" loading="lazy" /></div>
-          <span class="step__num">I</span>
-          <h3>Tear</h3>
-          <p>Open one sachet. This is the part where you choose yourself today.</p>
-        </li>
-        <li class="step reveal" data-speed="-0.06">
-          <div class="step__img tilt" data-cursor="view"><img src="assets/step-pour.jpg" alt="Collagen powder pouring from a SHOGA sachet into a glass of water" loading="lazy" /></div>
-          <span class="step__num">II</span>
-          <h3>Pour</h3>
-          <p>Into cold water. Watch it bloom. Notes of ripe white peach, nothing else.</p>
-        </li>
-        <li class="step reveal" data-speed="-0.16">
-          <div class="step__img tilt" data-cursor="view"><img src="assets/step-peach.jpg" alt="A glass of water beside a ripe white peach and blossoms" loading="lazy" /></div>
-          <span class="step__num">III</span>
-          <h3>Glow</h3>
-          <p>Sip, then get on with your day. The confidence compounds quietly.</p>
-        </li>
-      </ol>
-    </section>
-
-    <!-- FILM: video scrubbed by scroll -->
-    <section class="film" id="film" aria-label="The ritual, frame by frame">
-      <div class="film__sticky">
-        <canvas class="film__canvas" role="img" aria-label="A SHOGA sachet is poured into a glass of water beside a white peach"></canvas>
-        <div class="film__shade"></div>
-
-        <div class="film__cap" data-in="0.02" data-out="0.27">
-          <p class="eyebrow">Chapter I · 07:00</p>
-          <h3>Every morning<br/><em>starts the same.</em></h3>
-        </div>
-        <div class="film__cap" data-in="0.31" data-out="0.53">
-          <p class="eyebrow">Chapter II · Tear, pour</p>
-          <h3>Ten seconds.<br/><em>One glass.</em></h3>
-        </div>
-        <div class="film__cap" data-in="0.57" data-out="0.7">
-          <p class="eyebrow">Chapter III · Sip</p>
-          <h3>Ripe white peach.<br/><em>Nothing else.</em></h3>
-        </div>
-
-        <div class="film__hud" aria-hidden="true">
-          <span class="film__rec"><i></i>Scroll to play</span>
-          <span class="film__time">00:00</span>
-          <span class="film__bar"><i></i></span>
-          <span>00:10</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- FORMULA -->
-    <section class="formula" id="formula">
-      <svg class="waves" viewBox="0 0 1200 400" preserveAspectRatio="none" aria-hidden="true">
-        <g fill="none" stroke="currentColor" stroke-width="0.6">
-          <path d="M0 300 C 200 260, 300 120, 520 140 S 900 330, 1200 180"/>
-          <path d="M0 312 C 200 272, 300 132, 520 152 S 900 342, 1200 192"/>
-          <path d="M0 324 C 200 284, 300 144, 520 164 S 900 354, 1200 204"/>
-          <path d="M0 336 C 200 296, 300 156, 520 176 S 900 366, 1200 216"/>
-          <path d="M0 348 C 200 308, 300 168, 520 188 S 900 378, 1200 228"/>
-          <path d="M0 360 C 200 320, 300 180, 520 200 S 900 390, 1200 240"/>
-          <path d="M0 372 C 200 332, 300 192, 520 212 S 900 402, 1200 252"/>
-        </g>
-      </svg>
-      <header class="section-head">
-        <p class="eyebrow reveal">Our Formula</p>
-        <h2 class="display reveal">Short list.<br/><em>Serious intent.</em></h2>
-      </header>
-      <div class="ingredients">
-        <article class="ing reveal">
-          <span class="ing__n">01</span>
-          <h3>Collagen Peptides</h3>
-          <p>Hydrolysed for easy absorption. The structural protein your skin is built on.</p>
-        </article>
-        <article class="ing reveal">
-          <span class="ing__n">02</span>
-          <h3>Vitamin C</h3>
-          <p>Contributes to normal collagen formation for the normal function of the skin.</p>
-        </article>
-        <article class="ing reveal">
-          <span class="ing__n">03</span>
-          <h3>Hyaluronic Acid</h3>
-          <p>A moisture-loving molecule for that plump, well-rested look.</p>
-        </article>
-        <article class="ing reveal">
-          <span class="ing__n">04</span>
-          <h3>White Peach</h3>
-          <p>For the taste — soft, ripe, a little floral. A ritual should be a pleasure.</p>
-        </article>
-      </div>
-      <ul class="free-from reveal">
-        <li>No added sugar</li><li>No artificial colours</li><li>Gluten free</li><li>Third-party tested</li>
-      </ul>
-    </section>
-
-    <!-- ABOUT -->
-    <section class="about" id="about">
-      <div class="about__img parallax" data-cursor="view">
-        <img src="assets/box-night.jpg" alt="SHOGA box resting on leather in warm evening light" loading="lazy" />
-      </div>
-      <div class="about__body">
-        <p class="eyebrow reveal">About SHOGA</p>
-        <h2 class="display reveal">Confidence isn't a product.<br/><em>But it can start with one.</em></h2>
-        <p class="reveal">We started SHOGA because every beauty brand was selling the same thing: fixes. Something to hide, cover, correct. We wanted to sell the opposite — the feeling of having nothing to hide.</p>
-        <p class="reveal">So we made the simplest possible ritual. One sachet, one glass, every day. Not a transformation. A habit of choosing yourself, ten seconds at a time.</p>
-        <p class="signature reveal">— The SHOGA Studio</p>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="faq">
-      <header class="section-head">
-        <p class="eyebrow reveal">Questions</p>
-        <h2 class="display reveal">Before you <em>begin</em></h2>
-      </header>
-      <div class="accordion accordion--lg">
-        <details class="reveal"><summary>When will I notice a difference?</summary><p>Everyone's skin is different, so we don't promise overnight miracles. Collagen is a consistency game — we recommend committing to the ritual daily for at least 8–12 weeks.</p></details>
-        <details class="reveal"><summary>What does it taste like?</summary><p>Soft, ripe white peach. Lightly sweet with no added sugar, and it dissolves fully in cold water.</p></details>
-        <details class="reveal"><summary>Can I take it with other supplements?</summary><p>Usually, yes — but if you're pregnant, breastfeeding, taking medication or have a medical condition, check with your doctor first.</p></details>
-        <details class="reveal"><summary>How does the subscription work?</summary><p>A fresh box every 30 days at 15% off. Skip, pause or cancel anytime from your account — no calls, no guilt.</p></details>
-      </div>
-    </section>
-
     <!-- FINAL CTA -->
     <section class="final">
       <div class="final__bg"><img src="assets/product-peach.jpg" alt="" loading="lazy" /></div>
       <div class="final__inner">
         <p class="eyebrow reveal">Your move</p>
         <h2 class="final__title reveal">Buy the box.<br/><em>Keep the confidence.</em></h2>
-        <a href="#shop" class="btn btn--solid magnetic reveal"><span>Start the Ritual</span><svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M0 6h22M17 1l5 5-5 5"/></svg></a>
+        <a href="shop.html" class="btn btn--solid magnetic reveal"><span>Start the Ritual</span><svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M0 6h22M17 1l5 5-5 5"/></svg></a>
       </div>
     </section>
   </main>
@@ -412,14 +212,14 @@
         <p class="newsletter__msg" role="status"></p>
       </form>
       <div class="footer__cols">
-        <div><h4>Shop</h4><a href="#shop">White Peach Collagen</a><a href="#shop">Subscription</a><a href="#shop">Gift a Ritual</a></div>
-        <div><h4>SHOGA</h4><a href="#about">About</a><a href="#formula">Formula</a><a href="#ritual">The Ritual</a></div>
-        <div><h4>Help</h4><a href="#">Shipping</a><a href="#">Contact</a><a href="#">Instagram</a></div>
+        <div><h4>Shop</h4><a href="shop.html">White Peach Collagen</a><a href="shop.html#club">Ritual Club</a><a href="shop.html">Gift a Ritual</a></div>
+        <div><h4>SHOGA</h4><a href="about.html">About</a><a href="ritual.html#formula">Formula</a><a href="ritual.html">The Ritual</a></div>
+        <div><h4>Help</h4><a href="about.html#faq">FAQ</a><a href="shop.html#shipping">Shipping</a><a href="shop.html#club">Manage subscription</a></div>
       </div>
     </div>
     <div class="footer__mark" aria-hidden="true"><span>S</span><span>H</span><span>O</span><span>G</span><span>A</span></div>
     <div class="footer__bottom">
-      <p>© <span id="year"></span> SHOGA. Beauty ritual from within.</p>
+      <p>© <span id="year"></span> SHOGA Inc. Beauty ritual from within.</p>
       <p class="disclaimer">These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Food supplements should not replace a varied, balanced diet and healthy lifestyle.</p>
     </div>
   </footer>
@@ -436,7 +236,7 @@
     <div class="cart__items" data-lenis-prevent></div>
     <footer class="cart__foot">
       <div class="cart__row"><span>Subtotal</span><b data-subtotal>$0.00</b></div>
-      <p class="cart__note">Taxes calculated at checkout. Free shipping on subscriptions.</p>
+      <p class="cart__note">Taxes calculated at checkout. Free shipping on Ritual Club orders.</p>
       <button class="btn btn--solid btn--block" id="checkout"><span>Checkout</span></button>
     </footer>
   </aside>

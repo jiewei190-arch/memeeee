@@ -1,0 +1,119 @@
+<!-- title: Shop White Peach Collagen — SHOGA -->
+<!-- description: SHOGA White Peach Collagen. Join the Ritual Club and save 15% on every box, with free shipping. -->
+  <main class="page">
+    <section class="shop" id="shop">
+      <div class="shop__gallery reveal">
+        <div class="shop__main" data-cursor="view">
+          <img src="assets/product-peach.jpg" alt="SHOGA Collagen White Peach box surrounded by fresh peaches on silk" id="shopMain" />
+        </div>
+        <div class="shop__thumbs" aria-label="Product images">
+          <button class="is-active" data-src="assets/product-peach.jpg" data-alt="SHOGA Collagen White Peach box surrounded by fresh peaches on silk" aria-label="Show image 1"><img src="assets/product-peach.jpg" alt="" /></button>
+          <button data-src="assets/daylight.jpg" data-alt="SHOGA Collagen White Peach box in daylight with peach blossom" aria-label="Show image 2"><img src="assets/daylight.jpg" alt="" loading="lazy" /></button>
+          <button data-src="assets/box-night.jpg" data-alt="SHOGA Collagen box in warm evening light" aria-label="Show image 3"><img src="assets/box-night.jpg" alt="" loading="lazy" /></button>
+          <button data-src="assets/hold.jpg" data-alt="A woman holding the SHOGA box" aria-label="Show image 4"><img src="assets/hold.jpg" alt="" loading="lazy" /></button>
+        </div>
+      </div>
+
+      <div class="shop__info">
+        <p class="eyebrow">White Peach Collagen</p>
+        <h1 class="display">A Radiant <em>Ritual</em></h1>
+        <p class="lead">A daily beauty supplement with collagen, vitamins and antioxidants to support healthy, firm and luminous skin. One sachet, one glass, ten seconds.</p>
+
+        <ul class="facts">
+          <li><b data-count="30">30</b><span>sachets</span></li>
+          <li><b data-count="1">1</b><span>a day</span></li>
+          <li><b data-count="10" data-suffix="s">10s</b><span>ritual</span></li>
+        </ul>
+
+        <fieldset class="plans">
+          <legend class="sr-only">Purchase option</legend>
+          <label class="plan plan--club">
+            <input type="radio" name="plan" value="sub" id="plan-sub" checked />
+            <span class="plan__box">
+              <span class="plan__badge">Most chosen · Save 15%</span>
+              <span class="plan__row"><span class="plan__name">Ritual Club</span><span class="plan__price" data-price-sub></span></span>
+              <span class="plan__perks">
+                <span>A fresh box every 30 days</span>
+                <span>Free shipping, always</span>
+                <span>Skip, pause or cancel anytime</span>
+              </span>
+            </span>
+          </label>
+          <label class="plan">
+            <input type="radio" name="plan" value="once" id="plan-once" />
+            <span class="plan__box">
+              <span class="plan__row"><span class="plan__name">One-time purchase</span><span class="plan__price" data-price-once></span></span>
+              <span class="plan__note">A single 30-day box. Shipping calculated at checkout.</span>
+            </span>
+          </label>
+        </fieldset>
+
+        <div class="buy" id="buy">
+          <div class="qty">
+            <button type="button" data-qty="-1" aria-label="Decrease quantity">−</button>
+            <output id="qty">1</output>
+            <button type="button" data-qty="1" aria-label="Increase quantity">+</button>
+          </div>
+          <button class="btn btn--solid magnetic" id="addToCart">
+            <span>Add to cart · <span data-total></span></span>
+          </button>
+        </div>
+
+        <div class="accordion">
+          <details>
+            <summary>What's inside</summary>
+            <p>Hydrolysed collagen peptides, vitamin C, hyaluronic acid and white peach extract. Naturally flavoured, no added sugar. <a class="link" href="ritual.html#formula">See the full formula</a>.</p>
+          </details>
+          <details>
+            <summary>How to take it</summary>
+            <p>Tear one sachet into 200–250 ml of cold water, juice or your morning smoothie. Stir, sip, go. Take it daily at the same time. Consistency is the ritual.</p>
+          </details>
+          <details id="shipping">
+            <summary>Shipping &amp; returns</summary>
+            <p>Ritual Club orders ship free. If your first box doesn't feel like you, tell us within 30 days.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW THE CLUB WORKS -->
+    <section class="club" id="club">
+      <header class="section-head">
+        <p class="eyebrow reveal">The Ritual Club</p>
+        <h2 class="display reveal">How the <em>club</em> works</h2>
+      </header>
+      <ol class="club-steps">
+        <li class="reveal">
+          <span class="club-steps__n">1</span>
+          <h3>Join today</h3>
+          <p>Pick the Ritual Club above. Your first box ships now at 15% off.</p>
+        </li>
+        <li class="reveal">
+          <span class="club-steps__n">2</span>
+          <h3>Every 30 days</h3>
+          <p>A fresh box arrives before you run out, with free shipping. The habit never breaks.</p>
+        </li>
+        <li class="reveal">
+          <span class="club-steps__n">3</span>
+          <h3>Always your call</h3>
+          <p>Skip a month, pause, or cancel from your account. No calls, no guilt.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- QUICK FAQ -->
+    <section class="faq faq--tight">
+      <div class="accordion accordion--lg">
+        <details class="reveal"><summary>Can I cancel my Ritual Club subscription?</summary><p>Yes, anytime. Skip a delivery, pause, or cancel from your account before your next box ships.</p></details>
+        <details class="reveal"><summary>When will I notice a difference?</summary><p>Everyone's skin is different, so we don't promise overnight miracles. Collagen rewards consistency. We recommend the daily ritual for at least 8–12 weeks, which is exactly what the club is built for.</p></details>
+        <details class="reveal"><summary>What does it taste like?</summary><p>Soft, ripe white peach. Lightly sweet with no added sugar, and it dissolves fully in cold water.</p></details>
+      </div>
+      <p class="faq__more reveal"><a class="link" href="about.html#faq">All questions</a></p>
+    </section>
+  </main>
+
+  <!-- Mobile sticky buy bar -->
+  <div class="buybar" aria-hidden="true">
+    <div class="buybar__info"><span class="buybar__plan">Ritual Club</span><b data-total></b></div>
+    <button class="btn btn--solid" type="button" data-add tabindex="-1"><span>Add to cart</span></button>
+  </div>
