@@ -288,13 +288,32 @@
       </ol>
     </section>
 
-    <!-- VIDEO BAND -->
-    <section class="band">
-      <video class="band__video" muted loop playsinline preload="none" poster="assets/step-pour.jpg" data-lazy-video>
-        <source data-src="assets/ritual.mp4" type="video/mp4" />
-      </video>
-      <div class="band__shade"></div>
-      <p class="band__text" data-split-lines>The glass is for the skin.<br/><em>The ritual is for you.</em></p>
+    <!-- FILM: video scrubbed by scroll -->
+    <section class="film" id="film" aria-label="The ritual, frame by frame">
+      <div class="film__sticky">
+        <canvas class="film__canvas" role="img" aria-label="A SHOGA sachet is poured into a glass of water beside a white peach"></canvas>
+        <div class="film__shade"></div>
+
+        <div class="film__cap" data-in="0.02" data-out="0.27">
+          <p class="eyebrow">Chapter I · 07:00</p>
+          <h3>Every morning<br/><em>starts the same.</em></h3>
+        </div>
+        <div class="film__cap" data-in="0.31" data-out="0.53">
+          <p class="eyebrow">Chapter II · Tear, pour</p>
+          <h3>Ten seconds.<br/><em>One glass.</em></h3>
+        </div>
+        <div class="film__cap" data-in="0.57" data-out="0.7">
+          <p class="eyebrow">Chapter III · Sip</p>
+          <h3>Ripe white peach.<br/><em>Nothing else.</em></h3>
+        </div>
+
+        <div class="film__hud" aria-hidden="true">
+          <span class="film__rec"><i></i>Scroll to play</span>
+          <span class="film__time">00:00</span>
+          <span class="film__bar"><i></i></span>
+          <span>00:10</span>
+        </div>
+      </div>
     </section>
 
     <!-- FORMULA -->

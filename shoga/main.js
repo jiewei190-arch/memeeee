@@ -113,29 +113,64 @@
   };
   const manifestoWords = wordify($("[data-words]"));
 
-  $$("[data-split-lines]").forEach((el) => {
-    const lines = el.innerHTML.split(/<br\s*\/?>/i);
-    el.innerHTML = lines.map((l) => `<span class="line-mask"><span>${l.trim()}</span></span>`).join("");
-  });
-
   // ---------- Reveal on scroll ----------
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
   }, { threshold: 0.15, rootMargin: "0px 0px -6% 0px" });
-  $$(".reveal, .formula, .final, .band").forEach((el) => io.observe(el));
+  $$(".reveal, .formula, .final").forEach((el) => io.observe(el));
 
-  // Lazy band video
-  const band = $("[data-lazy-video]");
-  if (band) {
-    const vio = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) {
-        const src = $("source", band);
-        if (src.dataset.src) { src.src = src.dataset.src; delete src.dataset.src; band.load(); }
-        band.play().catch(() => {});
-      } else band.pause();
-    }, { rootMargin: "200px" });
-    vio.observe(band);
-  }
+  // ---------- Film: video frames scrubbed by scroll ----------
+  const FILM = { count: 120, fps: 12, path: (i) => `assets/seq/f${String(i + 1).padStart(3, "0")}.jpg` };
+  const film = $(".film"), canvas = $(".film__canvas"), ctx = canvas.getContext("2d");
+  const filmCaps = $$(".film__cap"), filmTime = $(".film__time"), filmBar = $(".film__bar i");
+  const frames = new Array(FILM.count);
+  let drawn = -1, filmFrame = 0, filmLoading = false;
+
+  const loadFrames = () => {
+    if (filmLoading) return; filmLoading = true;
+    // Load a coarse pass first (every 8th frame) so scrubbing works immediately, then fill the gaps.
+    const order = [];
+    for (let step = 8; step >= 1; step = step === 1 ? 0 : step / 2)
+      for (let i = 0; i < FILM.count; i += step) if (!order.includes(i)) order.push(i);
+    let next = 0;
+    const worker = () => {
+      if (next >= order.length) return;
+      const i = order[next++], img = new Image();
+      img.decoding = "async";
+      img.onload = () => { frames[i] = img; if (Math.abs(i - filmFrame) < 8) drawn = -1; worker(); };
+      img.onerror = worker;
+      img.src = FILM.path(i);
+    };
+    for (let k = 0; k < 6; k++) worker(); // 6 parallel requests
+  };
+  new IntersectionObserver(([e]) => { if (e.isIntersecting) loadFrames(); }, { rootMargin: "1500px 0px" }).observe(film);
+
+  const sizeCanvas = () => {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    canvas.width = Math.round(canvas.clientWidth * dpr);
+    canvas.height = Math.round(canvas.clientHeight * dpr);
+    drawn = -1;
+  };
+  sizeCanvas();
+  addEventListener("resize", sizeCanvas);
+
+  const nearestFrame = (i) => {
+    for (let d = 0; d < FILM.count; d++) {
+      if (frames[i - d]) return frames[i - d];
+      if (frames[i + d]) return frames[i + d];
+    }
+    return null;
+  };
+  const drawFilm = (i) => {
+    if (i === drawn) return;
+    const img = nearestFrame(i);
+    if (!img) return;
+    const cw = canvas.width, ch = canvas.height;
+    const s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight); // object-fit: cover
+    const w = img.naturalWidth * s, h = img.naturalHeight * s;
+    ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+    if (frames[i]) drawn = i;
+  };
 
   // ---------- Smooth scroll (Lenis) ----------
   let lenis = null;
@@ -250,6 +285,23 @@
     const mp = progressOf(manifesto);
     const count = Math.round(mp * 1.15 * manifestoWords.length);
     manifestoWords.forEach((w, i) => w.classList.toggle("on", i < count));
+
+    // film: scroll position -> video frame, plus chapter captions and timecode
+    const fr = film.getBoundingClientRect();
+    if (fr.bottom > -vh && fr.top < vh * 2) {
+      const fp = progressOf(film);
+      filmFrame = Math.round(fp * (FILM.count - 1));
+      drawFilm(filmFrame);
+      const secs = Math.floor((filmFrame / FILM.fps));
+      filmTime.textContent = `00:${String(secs).padStart(2, "0")}`;
+      filmBar.style.transform = `scaleX(${fp})`;
+      filmCaps.forEach((c) => {
+        const a = +c.dataset.in, b = +c.dataset.out, f = 0.04;
+        const o = Math.min(seg(fp, a, a + f), 1 - seg(fp, b - f, b));
+        c.style.opacity = String(o);
+        c.style.transform = `translateY(${(1 - o) * (fp < a + f ? 30 : -30)}px)`;
+      });
+    }
 
     if (!reduced) {
       // hero: letters fly apart, content lifts and fades, video pushes in

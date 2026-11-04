@@ -2,6 +2,7 @@
    SHOGA — The Confidence Ritual
    ========================================================== */
 :root {
+  color-scheme: dark;
   --ink: #0f0905;
   --cocoa-950: #140c07;
   --cocoa-900: #1b120c;
@@ -64,7 +65,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   letter-spacing: -0.01em;
   margin: 0 0 1.6rem;
 }
-.display em, .final__title em, .band__text em, .manifesto__text em { font-style: italic; color: var(--peach); }
+.display em, .final__title em, .manifesto__text em { font-style: italic; color: var(--peach); }
 .lead { font-size: 1.08rem; color: var(--cream-dim); max-width: 46ch; }
 
 /* ---------- Grain & cursor ---------- */
@@ -330,14 +331,34 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 .step h3 { font-family: var(--serif); font-weight: 300; font-size: clamp(2.2rem, 3.6vw, 3.4rem); margin: 0 0 .4rem; line-height: 1; }
 .step p { margin: 0; color: var(--cream-dim); max-width: 32ch; }
 
-.band { position: relative; height: 110vh; display: grid; place-items: center; overflow: hidden; isolation: isolate; text-align: center; padding: 0 var(--gutter); }
-.band__video { position: absolute; inset: -10% 0; width: 100%; height: 120%; object-fit: cover; z-index: -2; }
-.band__shade { position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse, rgba(20,12,7,.7), rgba(20,12,7,.92)); }
-.band__text { font-family: var(--serif); font-weight: 300; font-size: clamp(2.4rem, 7vw, 6.4rem); line-height: 1.05; margin: 0; }
-.line-mask { display: block; overflow: hidden; padding-bottom: .08em; }
-.line-mask > span { display: block; transform: translateY(105%); transition: transform 1.3s var(--ease); }
-.in .line-mask > span { transform: none; }
-.in .line-mask:nth-child(2) > span, .in .line-mask:nth-child(3) > span { transition-delay: .15s; }
+/* ---------- Film (scroll-scrubbed video) ---------- */
+.film { position: relative; height: 520vh; background: #0b0705; }
+.film__sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+.film__canvas { position: absolute; inset: 0; width: 100%; height: 100%; background: #0b0705 url("assets/seq/f001.jpg") center / cover no-repeat; }
+.film__shade {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(11,7,5,.82) 0%, rgba(11,7,5,.35) 38%, transparent 60%),
+    linear-gradient(0deg, rgba(11,7,5,.85) 0%, transparent 35%),
+    linear-gradient(180deg, rgba(11,7,5,.6) 0%, transparent 18%);
+}
+.film__cap {
+  position: absolute; left: var(--gutter); bottom: 17vh; max-width: min(560px, 80vw);
+  opacity: 0; will-change: opacity, transform; pointer-events: none;
+}
+.film__cap h3 { margin: 0; font-family: var(--serif); font-weight: 300; font-size: clamp(2.4rem, 5.4vw, 5rem); line-height: 1.02; text-shadow: 0 2px 30px rgba(11,7,5,.6); }
+.film__cap em { font-style: italic; color: var(--peach); }
+.film__cap .eyebrow { color: var(--gold); }
+.film__hud {
+  position: absolute; left: var(--gutter); right: var(--gutter); bottom: 6vh;
+  display: flex; align-items: center; gap: 16px;
+  font-size: 10px; letter-spacing: .3em; text-transform: uppercase; color: var(--cream-dim); font-variant-numeric: tabular-nums;
+}
+.film__rec { display: flex; align-items: center; gap: 10px; margin-right: auto; }
+.film__rec i { width: 6px; height: 6px; border-radius: 50%; background: var(--peach); animation: blink 1.6s ease-in-out infinite; }
+@keyframes blink { 50% { opacity: .2; } }
+.film__bar { flex: 0 1 280px; height: 1px; background: var(--line); }
+.film__bar i { display: block; height: 100%; background: var(--peach); transform-origin: left; transform: scaleX(0); }
 
 .formula { position: relative; padding: clamp(90px, 14vw, 180px) var(--gutter); background: var(--cocoa-950); overflow: hidden; }
 .waves { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--gold); opacity: .35; pointer-events: none; }
@@ -504,7 +525,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   .step:nth-child(2), .step:nth-child(3) { margin-top: 0; }
   .step__img { aspect-ratio: 4 / 3; }
 
-  .band { height: 80vh; }
+  .film { height: 420vh; }
+  .film__cap { bottom: 15vh; }
+  .film__rec { display: none; }
+  .film__bar { flex: 1; }
   .unbox { height: 220vh; }
   .unbox__media { clip-path: inset(28% 12% round 10px); }
   .waves { display: none; }
