@@ -39,6 +39,7 @@
     setTimeout(() => {
       loader.classList.add("is-done");
       document.body.classList.remove("is-loading");
+      if (lenis) lenis.start();
       setTimeout(() => document.body.classList.add("is-ready"), 250);
       setTimeout(() => loader.remove(), 1400);
     }, wait);
@@ -76,7 +77,7 @@
     menuBtn.setAttribute("aria-expanded", open);
     menu.classList.toggle("is-open", open);
     menu.setAttribute("aria-hidden", !open);
-    document.body.classList.toggle("lock", open);
+    lockScroll(open);
   };
   menuBtn.addEventListener("click", () => setMenu(menuBtn.getAttribute("aria-expanded") !== "true"));
   $$("a", menu).forEach((a) => a.addEventListener("click", () => setMenu(false)));
@@ -136,52 +137,192 @@
     vio.observe(band);
   }
 
+  // ---------- Smooth scroll (Lenis) ----------
+  let lenis = null;
+  if (!reduced && window.Lenis) {
+    lenis = new Lenis({ duration: 1.25, easing: (t) => 1 - Math.pow(1 - t, 4), smoothWheel: true });
+    lenis.stop(); // released when the loader finishes
+  }
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    const hash = a && a.getAttribute("href");
+    if (!hash || hash.length < 2) return;
+    const target = hash === "#top" ? 0 : $(hash);
+    if (target == null) return;
+    e.preventDefault();
+    if (lenis) lenis.scrollTo(target, { duration: 1.6 });
+    else if (target === 0) scrollTo({ top: 0, behavior: "smooth" });
+    else target.scrollIntoView({ behavior: "smooth" });
+  });
+  function lockScroll(on) {
+    document.body.classList.toggle("lock", on);
+    if (lenis) on ? lenis.stop() : lenis.start();
+  }
+
+  // ---------- Split headings into characters ----------
+  const splitChars = (el) => {
+    let i = 0;
+    el.setAttribute("aria-label", el.textContent.replace(/\s+/g, " ").trim());
+    const walk = (node) => {
+      [...node.childNodes].forEach((n) => {
+        if (n.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach((part) => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.append(" "); return; }
+            const w = document.createElement("span"); w.className = "word"; w.setAttribute("aria-hidden", "true");
+            [...part].forEach((c) => {
+              const ch = document.createElement("span");
+              ch.className = "ch"; ch.style.setProperty("--i", i++); ch.textContent = c; w.append(ch);
+            });
+            frag.append(w);
+          });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1 && n.tagName !== "BR") walk(n);
+      });
+    };
+    walk(el);
+    el.classList.add("chars");
+  };
+  $$(".display, .final__title").forEach((el) => { splitChars(el); io.observe(el); });
+
+  // ---------- Image wipes ----------
+  // A fully clipped element never reports as intersecting, so watch its parent instead.
+  const wio = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (!e.isIntersecting) return;
+    $$(":scope > .wipe", e.target).forEach((w) => w.classList.add("in"));
+    wio.unobserve(e.target);
+  }), { threshold: 0.12 });
+  $$(".shop__main, .step__img, .about__img").forEach((el) => { el.classList.add("wipe"); wio.observe(el.parentElement); });
+  io.observe($(".footer__mark"));
+
+  // ---------- Count-up facts ----------
+  const cio = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (!e.isIntersecting) return;
+    cio.unobserve(e.target);
+    const el = e.target, to = +el.dataset.count, suf = el.dataset.suffix || "", t0 = performance.now();
+    (function tick(now) {
+      const p = clamp((now - t0) / 1600, 0, 1);
+      el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3))) + suf;
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  }), { threshold: 0.6 });
+  if (!reduced) $$("[data-count]").forEach((el) => { el.textContent = "0" + (el.dataset.suffix || ""); cio.observe(el); });
+
+  // ---------- Marquee (reacts to scroll speed & direction) ----------
+  const marqRows = $$(".marquee__row").map((row, i) => ({ row, inner: $(".marquee__inner", row), x: 0, dir: i % 2 ? 1 : -1 }));
+  if (!reduced) document.body.classList.add("js-marquee");
+
   // ---------- Scroll-driven scenes ----------
   const manifesto = $(".manifesto");
   const buying = $(".buying"), track = $(".buying__track"), bprog = $(".buying__progress i");
+  const feels = $$(".feel");
   const aboutImg = $(".about__img img");
+  const heroLetters = $$(".hero__title span"), heroContent = $(".hero__content"), benefits = $(".benefits");
+  const unbox = $(".unbox"), unMedia = $(".unbox__media"), unImg = $(".unbox__media img"),
+        unShade = $(".unbox__shade"), unLines = $$(".unbox__line"), unCap = $(".unbox__cap");
+  const speedEls = $$("[data-speed], .final__bg img");
+  const progressBar = $(".progress i");
+  const stepsEl = $(".steps");
+  const root = document.documentElement;
   const wide = matchMedia("(min-width: 861px)");
 
   const progressOf = (el) => {
     const r = el.getBoundingClientRect();
     return clamp(-r.top / (r.height - innerHeight), 0, 1);
   };
+  const seg = (p, a, b) => clamp((p - a) / (b - a), 0, 1);
+  const lerp = (a, b, t) => a + (b - a) * t;
 
-  let ticking = false;
-  const onScroll = () => {
+  let lastScroll = scrollY, vel = 0, skew = 0;
+  const update = () => {
+    const vh = innerHeight, y = scrollY;
     onNav();
-    const vh = innerHeight;
 
-    // hero video subtle zoom/fade
-    if (!reduced) {
-      const hp = clamp(scrollY / vh, 0, 1);
-      heroVideo.style.transform = `scale(${1.08 + hp * 0.12}) translateY(${hp * 8}%)`;
-    }
+    // scroll velocity in px/frame, smoothed
+    const raw = lenis ? lenis.velocity : y - lastScroll;
+    lastScroll = y;
+    vel += (raw - vel) * 0.15;
+
+    progressBar.style.transform = `scaleX(${clamp(y / (root.scrollHeight - vh), 0, 1)})`;
 
     // manifesto word reveal
     const mp = progressOf(manifesto);
     const count = Math.round(mp * 1.15 * manifestoWords.length);
     manifestoWords.forEach((w, i) => w.classList.toggle("on", i < count));
 
-    // horizontal track
-    if (wide.matches) {
-      const bp = progressOf(buying);
-      const dist = track.scrollWidth - innerWidth;
-      track.style.transform = `translate3d(${-dist * bp}px,0,0)`;
-      bprog.style.transform = `scaleX(${bp})`;
+    if (!reduced) {
+      // hero: letters fly apart, content lifts and fades, video pushes in
+      const hp = clamp(y / vh, 0, 1);
+      if (hp < 1 || heroContent.style.opacity !== "0") {
+        heroVideo.style.transform = `scale(${1.08 + hp * 0.18}) translateY(${hp * 10}%)`;
+        heroLetters.forEach((l, i) => {
+          const off = i - (heroLetters.length - 1) / 2;
+          l.style.transform = `translate3d(${off * hp * 14}vw, ${Math.abs(off) * hp * -6}vh, 0) rotate(${off * hp * 6}deg)`;
+        });
+        heroContent.style.transform = `translateY(${hp * -18}vh)`;
+        heroContent.style.opacity = String(clamp(1 - hp * 1.5, 0, 1));
+        benefits.style.opacity = String(clamp(1 - hp * 2.5, 0, 1));
+      }
+
+      // unbox: product grows from a card to full-bleed, then the two lines swap
+      const up = progressOf(unbox);
+      const g = 1 - Math.pow(1 - seg(up, 0, 0.55), 3);
+      const ins = wide.matches ? [24, 30] : [28, 12];
+      unMedia.style.clipPath = `inset(${lerp(ins[0], 0, g)}% ${lerp(ins[1], 0, g)}% round ${lerp(12, 0, g)}px)`;
+      unImg.style.transform = `scale(${lerp(1.35, 1, g)})`;
+      unShade.style.opacity = String(seg(up, 0.3, 0.6));
+      const in1 = seg(up, 0.05, 0.25), out1 = seg(up, 0.45, 0.58), a2 = seg(up, 0.6, 0.78);
+      unLines[0].style.opacity = String(in1 * (1 - out1));
+      unLines[0].style.transform = `translateY(${(1 - in1) * 40 - out1 * 40}px)`;
+      unLines[1].style.opacity = String(a2);
+      unLines[1].style.transform = `translateY(${(1 - a2) * 40}px) scale(${lerp(0.94, 1, a2)})`;
+      unCap.style.opacity = String(seg(up, 0.78, 0.92));
+
+      // parallax via the independent `translate` property (doesn't fight reveal transforms)
+      speedEls.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.bottom < -200 || r.top > vh + 200) return;
+        const sp = el.dataset.speed ? +el.dataset.speed : -0.12;
+        el.style.translate = `0 ${(r.top + r.height / 2 - vh / 2) * sp}px`;
+      });
+
+      if (aboutImg) {
+        const r = aboutImg.parentElement.getBoundingClientRect();
+        const p = clamp((vh - r.top) / (vh + r.height), 0, 1);
+        aboutImg.style.transform = `translateY(${-p * 20}%)`;
+      }
+
+      // ritual steps lean with scroll speed
+      skew += (clamp(vel * 0.12, -4, 4) - skew) * 0.2;
+      stepsEl.style.setProperty("--skew", `${skew.toFixed(2)}deg`);
+
+      // marquee: constant drift, boosted and reversed by scrolling
+      marqRows.forEach((m) => {
+        const half = m.inner.scrollWidth / 2 || 1;
+        m.x += m.dir * (0.6 + Math.abs(vel) * 0.35) * (vel < -0.5 ? -1 : 1);
+        if (m.x <= -half) m.x += half;
+        if (m.x > 0) m.x -= half;
+        m.inner.style.transform = `translate3d(${m.x}px,0,0)`;
+        m.row.style.transform = `skewX(${clamp(-vel * 0.25, -10, 10)}deg)`;
+      });
     }
 
-    // about parallax
-    if (!reduced && aboutImg) {
-      const r = aboutImg.parentElement.getBoundingClientRect();
-      const p = clamp((vh - r.top) / (vh + r.height), 0, 1);
-      aboutImg.style.transform = `translateY(${-p * 20}%)`;
-    }
-    ticking = false;
+    // horizontal track + per-card depth parallax
+    if (wide.matches) {
+      const bp = progressOf(buying);
+      track.style.transform = `translate3d(${-(track.scrollWidth - innerWidth) * bp}px,0,0)`;
+      bprog.style.transform = `scaleX(${bp})`;
+      if (!reduced) feels.forEach((f) => {
+        const r = f.getBoundingClientRect();
+        f.firstElementChild.firstElementChild.style.translate = `${(r.left - innerWidth / 2) * -0.06}px 0`;
+        f.lastElementChild.style.translate = `${(r.left - innerWidth / 3) * 0.08}px 0`;
+      });
+    } else track.style.transform = "";
   };
-  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
-  addEventListener("resize", onScroll);
-  onScroll();
+
+  const frame = (t) => { if (lenis) lenis.raf(t); update(); requestAnimationFrame(frame); };
+  requestAnimationFrame(frame);
 
   // ---------- Magnetic + tilt ----------
   if (finePointer && !reduced) {
@@ -237,12 +378,12 @@
   const openCart = () => {
     scrim.hidden = false; requestAnimationFrame(() => scrim.classList.add("is-on"));
     drawer.classList.add("is-open"); drawer.setAttribute("aria-hidden", "false");
-    document.body.classList.add("lock"); $(".cart-close").focus();
+    lockScroll(true); $(".cart-close").focus();
   };
   const closeCart = () => {
     scrim.classList.remove("is-on"); setTimeout(() => (scrim.hidden = true), 500);
     drawer.classList.remove("is-open"); drawer.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("lock");
+    lockScroll(false);
   };
   $(".cart-toggle").addEventListener("click", openCart);
   $(".cart-close").addEventListener("click", closeCart);

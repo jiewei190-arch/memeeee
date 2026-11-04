@@ -12,6 +12,7 @@ cd shoga && python3 -m http.server 8000
 - `styles.css` — design system (colour tokens at the top)
 - `main.js` — loader, cursor, scroll scenes, gallery, cart. **Prices live in `PRODUCT` at the top.**
 - `assets/` — optimized images and the muted hero video
+- `vendor/lenis.min.js` — Lenis 1.1.13 smooth-scroll (MIT), bundled locally
 
 ## Before going live
 - Set real prices in `main.js` (placeholders: $58 one-time, 15% off subscription).

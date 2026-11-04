@@ -26,6 +26,7 @@
     <p class="loader__sub">The Confidence Ritual</p>
   </div>
 
+  <div class="progress" aria-hidden="true"><i></i></div>
   <div class="grain" aria-hidden="true"></div>
   <div class="cursor" aria-hidden="true"><span class="cursor__dot"></span><span class="cursor__ring"><em>View</em></span></div>
 
@@ -49,7 +50,7 @@
     </div>
   </header>
 
-  <div class="mobile-menu" aria-hidden="true">
+  <div class="mobile-menu" aria-hidden="true" data-lenis-prevent>
     <a href="#shop">Shop</a>
     <a href="#formula">Our Formula</a>
     <a href="#ritual">The Ritual</a>
@@ -69,7 +70,7 @@
       <div class="hero__content">
         <p class="eyebrow hero__eyebrow" data-split>The Confidence Ritual</p>
         <h1 class="hero__title" aria-label="SHOGA">
-          <span>S</span><span>H</span><span>O</span><span>G</span><span>A</span>
+          <span><b>S</b></span><span><b>H</b></span><span><b>O</b></span><span><b>G</b></span><span><b>A</b></span>
         </h1>
         <p class="hero__sub">Beauty ritual from within</p>
         <a href="#shop" class="btn btn--outline magnetic">
@@ -159,6 +160,19 @@
       </div>
     </section>
 
+    <!-- UNBOX (pinned zoom scene) -->
+    <section class="unbox" aria-label="The box">
+      <div class="unbox__sticky">
+        <div class="unbox__media"><img src="assets/product-peach.jpg" alt="SHOGA Collagen White Peach box among fresh peaches" loading="lazy" /></div>
+        <div class="unbox__shade"></div>
+        <h2 class="unbox__title">
+          <span class="unbox__line">It's not a box.</span>
+          <span class="unbox__line"><em>It's a turning point.</em></span>
+        </h2>
+        <p class="unbox__cap">30 mornings of choosing yourself</p>
+      </div>
+    </section>
+
     <!-- SHOP -->
     <section class="shop" id="shop">
       <div class="shop__gallery reveal">
@@ -179,9 +193,9 @@
         <p class="lead reveal">A daily beauty supplement with collagen, vitamins and antioxidants to support healthy, firm and luminous skin. One sachet. One glass. Ten seconds that change how you walk into a room.</p>
 
         <ul class="facts reveal">
-          <li><b>30</b><span>sachets</span></li>
-          <li><b>1</b><span>a day</span></li>
-          <li><b>10s</b><span>ritual</span></li>
+          <li><b data-count="30">30</b><span>sachets</span></li>
+          <li><b data-count="1">1</b><span>a day</span></li>
+          <li><b data-count="10" data-suffix="s">10s</b><span>ritual</span></li>
         </ul>
 
         <fieldset class="plans reveal">
@@ -253,19 +267,19 @@
         <h2 class="display reveal">Ten seconds.<br/><em>Every single day.</em></h2>
       </header>
       <ol class="steps">
-        <li class="step reveal">
+        <li class="step reveal" data-speed="0.04">
           <div class="step__img tilt" data-cursor="view"><img src="assets/step-box.jpg" alt="SHOGA box beside a whole and a halved white peach" loading="lazy" /></div>
           <span class="step__num">I</span>
           <h3>Tear</h3>
           <p>Open one sachet. This is the part where you choose yourself today.</p>
         </li>
-        <li class="step reveal">
+        <li class="step reveal" data-speed="-0.06">
           <div class="step__img tilt" data-cursor="view"><img src="assets/step-pour.jpg" alt="Collagen powder pouring from a SHOGA sachet into a glass of water" loading="lazy" /></div>
           <span class="step__num">II</span>
           <h3>Pour</h3>
           <p>Into cold water. Watch it bloom. Notes of ripe white peach, nothing else.</p>
         </li>
-        <li class="step reveal">
+        <li class="step reveal" data-speed="-0.16">
           <div class="step__img tilt" data-cursor="view"><img src="assets/step-peach.jpg" alt="A glass of water beside a ripe white peach and blossoms" loading="lazy" /></div>
           <span class="step__num">III</span>
           <h3>Glow</h3>
@@ -384,7 +398,7 @@
         <div><h4>Help</h4><a href="#">Shipping</a><a href="#">Contact</a><a href="#">Instagram</a></div>
       </div>
     </div>
-    <div class="footer__mark" aria-hidden="true">SHOGA</div>
+    <div class="footer__mark" aria-hidden="true"><span>S</span><span>H</span><span>O</span><span>G</span><span>A</span></div>
     <div class="footer__bottom">
       <p>© <span id="year"></span> SHOGA. Beauty ritual from within.</p>
       <p class="disclaimer">These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Food supplements should not replace a varied, balanced diet and healthy lifestyle.</p>
@@ -400,7 +414,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M5 5l14 14M19 5L5 19"/></svg>
       </button>
     </header>
-    <div class="cart__items"></div>
+    <div class="cart__items" data-lenis-prevent></div>
     <footer class="cart__foot">
       <div class="cart__row"><span>Subtotal</span><b data-subtotal>$0.00</b></div>
       <p class="cart__note">Taxes calculated at checkout. Free shipping on subscriptions.</p>
@@ -410,6 +424,7 @@
 
   <div class="toast" role="status" aria-live="polite"></div>
 
+  <script src="vendor/lenis.min.js"></script>
   <script src="main.js"></script>
 </body>
 </html>
