@@ -1,4 +1,6 @@
-/* SHOGA v2 — Ritual Club */
+/* SHOGA v2 — Ritual Club
+   Built for an older audience: one obvious action everywhere ("Buy now", which
+   becomes "Checkout" once the cart has something in it), large type, little clutter. */
 (() => {
   "use strict";
 
@@ -7,10 +9,9 @@
     name: "White Peach Collagen",
     image: "assets/product-peach.jpg",
     price: 58.0,         // one box
-    clubDiscount: 0.15,  // Ritual Club saving
+    clubDiscount: 0.15,  // monthly delivery saving
     currency: "USD",
-    shipDay: 1,          // club boxes ship on this day of each month…
-    shipHour: 10,        // …at this local hour
+    shipDay: 1,          // monthly boxes ship on this day of each month
   };
 
   const $ = (s, c = document) => c.querySelector(s);
@@ -18,30 +19,31 @@
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const fmt = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: CONFIG.currency }).format(n);
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const clubPrice = +(CONFIG.price * (1 - CONFIG.clubDiscount)).toFixed(2);
-  const priceFor = (plan) => (plan === "sub" ? clubPrice : CONFIG.price);
+  const subPrice = +(CONFIG.price * (1 - CONFIG.clubDiscount)).toFixed(2);
+  const priceFor = (plan) => (plan === "sub" ? subPrice : CONFIG.price);
 
   // ---------- Prices ----------
-  $$("[data-price-sub]").forEach((el) => (el.textContent = fmt(clubPrice)));
+  $$("[data-price-sub]").forEach((el) => (el.textContent = fmt(subPrice)));
   $$("[data-price-once]").forEach((el) => (el.textContent = fmt(CONFIG.price)));
-  $$(".opt [data-price-sub]").forEach((el) => (el.innerHTML = `<s>${fmt(CONFIG.price)}</s>${fmt(clubPrice)}`));
+  $$(".opt [data-price-sub]").forEach((el) => (el.innerHTML = `<s>${fmt(CONFIG.price)}</s> ${fmt(subPrice)}`));
 
-  // ---------- Countdown to the next club shipment ----------
-  const cd = $("#countdown");
-  const nextShip = () => {
-    const now = new Date();
-    let t = new Date(now.getFullYear(), now.getMonth(), CONFIG.shipDay, CONFIG.shipHour);
-    if (t <= now) t = new Date(now.getFullYear(), now.getMonth() + 1, CONFIG.shipDay, CONFIG.shipHour);
-    return t;
+  // ---------- Next delivery date (plain date, no ticking clock) ----------
+  const now = new Date();
+  let ship = new Date(now.getFullYear(), now.getMonth(), CONFIG.shipDay);
+  if (ship <= now) ship = new Date(now.getFullYear(), now.getMonth() + 1, CONFIG.shipDay);
+  $("#nextShip").textContent = ship.toLocaleDateString("en-US", { weekday: "short", month: "long", day: "numeric" });
+
+  // ---------- Backdrop veil: clear over the hero, deepening as you scroll ----------
+  const heroEl = $(".hero");
+  let veilQueued = false;
+  const setVeil = () => {
+    veilQueued = false;
+    const p = clamp(scrollY / (heroEl.offsetHeight * 0.75), 0, 1);
+    document.documentElement.style.setProperty("--veil", (p * 0.82).toFixed(3));
   };
-  let target = nextShip();
-  const tick = () => {
-    let s = Math.max(0, Math.floor((target - Date.now()) / 1000));
-    if (s === 0) { target = nextShip(); s = Math.floor((target - Date.now()) / 1000); }
-    const d = Math.floor(s / 86400), h = Math.floor(s / 3600) % 24, m = Math.floor(s / 60) % 60, sec = s % 60;
-    cd.textContent = `${d}d ${String(h).padStart(2, "0")}h ${String(m).padStart(2, "0")}m ${String(sec).padStart(2, "0")}s`;
-  };
-  tick(); setInterval(tick, 1000);
+  addEventListener("scroll", () => { if (!veilQueued) { veilQueued = true; requestAnimationFrame(setVeil); } }, { passive: true });
+  addEventListener("resize", setVeil);
+  setVeil();
 
   // ---------- Mobile bar height (sticky labels sit under it) ----------
   const side = $(".side");
@@ -61,51 +63,18 @@
     if (!e.isIntersecting) return;
     navLinks.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === `#${e.target.id}`));
   }), { rootMargin: "-40% 0px -55% 0px" });
-  ["how", "film", "white-peach", "formula", "story", "faq"].forEach((id) => { const el = document.getElementById(id); if (el) sio.observe(el); });
-
-  // ---------- Gentle reveals (content is visible without JS) ----------
-  if (!reduced) {
-    const rio = new IntersectionObserver((entries) => entries.forEach((e) => {
-      if (e.isIntersecting) { e.target.classList.add("in"); rio.unobserve(e.target); }
-    }), { threshold: 0.12 });
-    $$(".block > :not(.label), .hero__card").forEach((el) => {
-      if (el.getBoundingClientRect().top < innerHeight) return; // already on screen: leave it be
-      el.classList.add("rv"); rio.observe(el);
-    });
-  }
+  ["how", "film", "formula", "story", "faq"].forEach((id) => sio.observe(document.getElementById(id)));
 
   // ---------- Film ----------
-  const film = $(".film__video"), play = $(".film__play"), ftime = $(".film__time");
+  const film = $(".film__video"), play = $(".film__play");
   new IntersectionObserver(([e]) => { if (e.isIntersecting) film.play().catch(() => {}); else film.pause(); }, { threshold: 0.4 }).observe(film);
-  film.addEventListener("timeupdate", () => {
-    ftime.textContent = `00:${String(Math.floor(film.currentTime)).padStart(2, "0")} / 00:${String(Math.round(film.duration || 10)).padStart(2, "0")}`;
-  });
   play.addEventListener("click", () => {
-    const on = film.muted;
-    film.muted = !on;
-    if (on) { film.currentTime = 0; film.play().catch(() => {}); }
-    play.setAttribute("aria-pressed", String(on));
-    play.innerHTML = on ? "❚❚ <span>Sound on</span>" : "▶ <span>Watch with sound</span>";
+    const turnOn = film.muted;
+    film.muted = !turnOn;
+    if (turnOn) { film.currentTime = 0; film.play().catch(() => {}); }
+    play.setAttribute("aria-pressed", String(turnOn));
+    play.innerHTML = turnOn ? "■ <span>Sound off</span>" : "▶ <span>Play with sound</span>";
   });
-
-  // ---------- Carousel ----------
-  const words = [
-    "I walked in first.",
-    "No filter tonight.",
-    "Took the photo. Kept it.",
-    "Bare-faced Sunday, and the plans stayed.",
-    "Shoulders back. Seen up close.",
-  ];
-  const quote = $(".carousel__quote"), count = $(".carousel__count");
-  let wi = 0, wTimer;
-  const show = (i) => {
-    wi = (i + words.length) % words.length;
-    quote.classList.add("fade");
-    setTimeout(() => { quote.textContent = `“${words[wi]}”`; count.textContent = `${wi + 1}/${words.length}`; quote.classList.remove("fade"); }, reduced ? 0 : 300);
-  };
-  const auto = () => { clearInterval(wTimer); if (!reduced) wTimer = setInterval(() => show(wi + 1), 6000); };
-  $$(".carousel__nav").forEach((b) => b.addEventListener("click", () => { show(wi + +b.dataset.dir); auto(); }));
-  quote.textContent = `“${words[0]}”`; count.textContent = `1/${words.length}`; auto();
 
   // ---------- Overlays ----------
   const scrim = $(".scrim"), join = $(".join"), cartEl = $(".cart");
@@ -117,7 +86,7 @@
     requestAnimationFrame(() => { scrim.classList.add("is-on"); el.classList.add("is-on"); });
     document.body.classList.add("lock");
     openEl = el;
-    setTimeout(() => $("button, input", el)?.focus(), 50);
+    setTimeout(() => (el === cartEl && cart.length ? $("#checkout") : $("button, input", el))?.focus(), 60);
   };
   const close = (instant) => {
     if (!openEl) return;
@@ -125,16 +94,19 @@
     scrim.classList.remove("is-on"); el.classList.remove("is-on");
     document.body.classList.remove("lock");
     const hide = () => { el.hidden = true; if (!openEl) scrim.hidden = true; };
-    instant === true ? hide() : setTimeout(hide, 450);
-    lastFocus?.focus?.();
+    instant === true ? hide() : setTimeout(hide, 400);
+    if (instant !== true) lastFocus?.focus?.();
   };
   scrim.addEventListener("click", close);
   $$(".join__close").forEach((b) => b.addEventListener("click", close));
+  $(".cart__keep").addEventListener("click", close);
   addEventListener("keydown", (e) => { if (e.key === "Escape") { close(); setMenu(false); } });
-  $$("[data-join]").forEach((b) => b.addEventListener("click", () => open(join)));
   $(".cart-toggle").addEventListener("click", () => open(cartEl));
 
-  // ---------- Join card ----------
+  // Every main button: "Buy now" until something is in the cart, then "Checkout"
+  $$("[data-primary]").forEach((b) => b.addEventListener("click", () => open(cart.length ? cartEl : join)));
+
+  // ---------- Buy sheet ----------
   let qty = 1;
   const plan = () => $("input[name=plan]:checked").value;
   const updateTotal = () => { $("#qty").textContent = qty; $("[data-total]").textContent = fmt(priceFor(plan()) * qty); };
@@ -151,17 +123,26 @@
   const list = $(".cart__items");
 
   const render = () => {
-    $(".cart-count").textContent = cart.reduce((s, i) => s + i.qty, 0);
+    const n = cart.reduce((s, i) => s + i.qty, 0);
+    $(".cart-count").textContent = n;
+    $(".cart-label").textContent = n ? "Checkout" : "Cart";
+    $(".cart-toggle").classList.toggle("is-full", n > 0);
+    $(".cart-toggle").setAttribute("aria-label", n ? `Checkout, ${n} ${n === 1 ? "box" : "boxes"} in cart` : "Cart, empty");
+    $$("[data-primary]").forEach((b) => {
+      b.textContent = n ? `Checkout (${n})` : "Buy now";
+      b.classList.toggle("is-checkout", n > 0);
+    });
     list.innerHTML = cart.length ? cart.map((i, idx) => `
       <div class="citem">
         <img src="${CONFIG.image}" alt="" />
-        <div><b>${CONFIG.name}</b><small>${i.plan === "sub" ? "Ritual Club · every 30 days" : "One box"}</small>
-          <div class="qty"><button data-i="${idx}" data-d="-1" aria-label="Fewer">−</button><output>${i.qty}</output><button data-i="${idx}" data-d="1" aria-label="More">+</button></div></div>
+        <div><b>${CONFIG.name}</b><small>${i.plan === "sub" ? "Monthly delivery" : "One box"}</small>
+          <div class="qty"><button data-i="${idx}" data-d="-1" aria-label="One fewer box">−</button><output>${i.qty}</output><button data-i="${idx}" data-d="1" aria-label="One more box">+</button></div></div>
         <div class="citem__price"><span>${fmt(i.price * i.qty)}</span><button class="citem__rm" data-rm="${idx}">Remove</button></div>
       </div>
-      ${i.plan === "once" ? `<button class="upsell" data-up="${idx}">Join the Ritual Club instead and save ${fmt((CONFIG.price - clubPrice) * i.qty)}, with free shipping →</button>` : ""}`).join("")
-      : `<p class="cart__empty">Your ritual starts with one box.</p>`;
+      ${i.plan === "once" ? `<button class="upsell" data-up="${idx}">Switch to monthly delivery and save ${fmt((CONFIG.price - subPrice) * i.qty)}</button>` : ""}`).join("")
+      : `<p class="cart__empty">Your cart is empty.</p>`;
     $("[data-subtotal]").textContent = fmt(cart.reduce((s, i) => s + i.price * i.qty, 0));
+    $("#checkout").hidden = !cart.length;
     save();
   };
   list.addEventListener("click", (e) => {
@@ -170,8 +151,8 @@
     else if (b.dataset.up != null) {
       const it = cart.splice(+b.dataset.up, 1)[0];
       const sub = cart.find((i) => i.plan === "sub");
-      if (sub) sub.qty = clamp(sub.qty + it.qty, 1, 10); else cart.push({ plan: "sub", qty: it.qty, price: clubPrice });
-      toast("Welcome to the Ritual Club. You're saving 15%.");
+      if (sub) sub.qty = clamp(sub.qty + it.qty, 1, 10); else cart.push({ plan: "sub", qty: it.qty, price: subPrice });
+      toast("Switched to monthly delivery. You're saving 15%.");
     } else { const it = cart[+b.dataset.i]; it.qty = clamp(it.qty + +b.dataset.d, 0, 10); if (!it.qty) cart.splice(+b.dataset.i, 1); }
     render();
   });
@@ -182,20 +163,12 @@
     render();
     open(cartEl);
   });
-  $("#checkout").addEventListener("click", () => toast(cart.length ? "Checkout is almost ready. Connect your payment provider to go live." : "Your cart is empty."));
+  $("#checkout").addEventListener("click", () => toast("Checkout is almost ready. Connect your payment provider to go live."));
   render();
 
-  // ---------- Misc ----------
   function toast(msg) {
     const t = $(".toast"); t.textContent = msg; t.classList.add("is-on");
-    clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove("is-on"), 3200);
+    clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove("is-on"), 4000);
   }
-  $(".newsletter").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const input = $("#email"), msg = $(".newsletter__msg");
-    if (!input.value || !input.checkValidity()) { msg.textContent = "Please enter a valid email."; return; }
-    msg.textContent = "You're on the list. First letter arrives with the next batch.";
-    input.value = "";
-  });
   $("#year").textContent = new Date().getFullYear();
 })();
