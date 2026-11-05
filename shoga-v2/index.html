@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>SHOGA — Ritual Club</title>
+  <meta name="description" content="SHOGA White Peach Collagen. A monthly confidence ritual, delivered to members of the Ritual Club." />
+  <meta name="theme-color" content="#d6ccbd" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@400&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <p class="notice"><a href="#formula">Batch No. 01 · White Peach is shipping now. <u>Read the formula</u></a></p>
+
+  <div class="frame">
+    <!-- Sidebar (desktop) / top bar (mobile) -->
+    <aside class="side">
+      <div class="side__top">
+        <a href="#top" class="logo" aria-label="SHOGA home">SHOGA</a>
+        <div class="side__actions">
+          <button class="pill-btn cart-toggle" type="button" aria-label="Open cart">Cart <span class="cart-count">0</span></button>
+          <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+        </div>
+      </div>
+
+      <dl class="status">
+        <div><dt>Current batch:</dt><dd><span class="tag">No. 01 · White Peach</span></dd></div>
+        <div><dt>Next box ships:</dt><dd><span class="tag tag--count" id="countdown">--d --h --m --s</span></dd></div>
+        <div><dt>Ritual Club:</dt><dd><span class="tag tag--open"><i></i>Open</span></dd></div>
+      </dl>
+
+      <nav class="side__nav" aria-label="Sections">
+        <a href="#how">How it works</a>
+        <a href="#film">The ritual</a>
+        <a href="#white-peach">White Peach</a>
+        <a href="#formula">Formula</a>
+        <a href="#story">Our story</a>
+        <a href="#faq">Questions</a>
+      </nav>
+
+      <div class="side__foot">
+        <div><span>Currency</span><b>USD $</b></div>
+        <div><span>Ships to</span><b>United States</b></div>
+      </div>
+    </aside>
+
+    <main id="top">
+      <!-- HERO -->
+      <section class="hero" aria-label="SHOGA Ritual Club">
+        <div class="hero__media">
+          <video autoplay muted loop playsinline preload="auto" poster="assets/ritual-poster.jpg">
+            <source src="assets/ritual.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="card hero__card" id="how">
+          <p class="hero__lede"><b>A new model for confidence.</b> A collagen ritual blended for skin you stop hiding, delivered every month. <span class="accent">Ritual Club open.</span></p>
+          <ol class="steps">
+            <li><span>01</span>Join the Ritual Club below.</li>
+            <li><span>02</span>Your first box of White Peach ships today, at 15% off.</li>
+            <li><span>03</span>After that, a fresh box arrives every 30 days. Skip, pause or cancel anytime.</li>
+          </ol>
+          <p class="small">Each box is 30 sachets for <b data-price-sub></b> a month, with free shipping. Or buy a single box for <b data-price-once></b>.</p>
+          <button class="btn btn--join" type="button" data-join>Join <i class="dot"></i></button>
+        </div>
+      </section>
+
+      <!-- FILM -->
+      <section class="block" id="film">
+        <h2 class="label"><a href="#film">The ritual <span>#</span></a></h2>
+        <div class="film">
+          <video class="film__video" muted loop playsinline preload="metadata" poster="assets/step-box.jpg">
+            <source src="assets/ritual.mp4" type="video/mp4" />
+          </video>
+          <div class="film__bar">
+            <button class="film__play" type="button" aria-pressed="false">▶ <span>Watch with sound</span></button>
+            <span class="film__time">00:00 / 00:10</span>
+          </div>
+        </div>
+        <div class="split">
+          <p class="italic">Tear one sachet. Pour it into cold water. Sip. Ten seconds that change how you walk into a room.</p>
+          <p>We made the simplest ritual we could. No serums to layer and no twelve-step routine. The point is to show up for yourself every morning, and let the confidence compound.</p>
+        </div>
+      </section>
+
+      <!-- WHITE PEACH -->
+      <section class="block" id="white-peach">
+        <h2 class="label"><a href="#white-peach">White Peach Collagen <span>#</span></a></h2>
+        <div class="feature">
+          <figure class="frame-img"><img src="assets/product-peach.jpg" alt="SHOGA Collagen White Peach box with fresh peaches on silk" loading="lazy" /></figure>
+          <div class="feature__text">
+            <p class="italic">Soft, ripe white peach, with a little floral sweetness. A ritual should be a pleasure.</p>
+            <p>Our first batch pairs hydrolysed collagen peptides with vitamin C and hyaluronic acid, flavoured with white peach and no added sugar. Thirty sachets, one a day.</p>
+            <ul class="facts">
+              <li><span>Sachets</span><b>30</b></li>
+              <li><span>Per day</span><b>1</b></li>
+              <li><span>Ritual</span><b>10 sec</b></li>
+            </ul>
+            <button class="link" type="button" data-join>Add White Peach to your ritual →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- FORMULA -->
+      <section class="block" id="formula">
+        <h2 class="label"><a href="#formula">The formula <span>#</span></a></h2>
+        <div class="card ledger">
+          <p class="ledger__head"><span>Batch No. 01</span><span>White Peach</span></p>
+          <dl>
+            <div><dt>Collagen peptides</dt><dd>Hydrolysed for easy absorption. The structural protein skin is built on.</dd></div>
+            <div><dt>Vitamin C</dt><dd>Contributes to normal collagen formation for the normal function of the skin.</dd></div>
+            <div><dt>Hyaluronic acid</dt><dd>A moisture-loving molecule for a plump, well-rested look.</dd></div>
+            <div><dt>White peach</dt><dd>Natural flavour. The reason you'll look forward to it.</dd></div>
+          </dl>
+          <p class="ledger__foot">No added sugar · No artificial colours · Gluten free · Third-party tested</p>
+        </div>
+      </section>
+
+      <!-- STORY -->
+      <section class="block" id="story">
+        <h2 class="label"><a href="#story">Our story <span>#</span></a></h2>
+        <div class="feature feature--rev">
+          <figure class="frame-img"><img src="assets/hold.jpg" alt="A woman holding the SHOGA beauty ritual box against her shoulder" loading="lazy" /></figure>
+          <div class="feature__text">
+            <p class="italic">We were never really selling collagen.</p>
+            <p>We're selling the second glance in the mirror, the bare shoulder, the photo you don't retake, the room you walk into first. Every other beauty brand sells fixes: something to hide, cover or correct. We wanted to sell the feeling of having nothing to hide.</p>
+            <p class="sign">SHOGA Inc.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- WORDS (carousel) -->
+      <section class="block" id="words">
+        <h2 class="label"><a href="#words">Words to sip to <span>#</span></a></h2>
+        <div class="carousel" aria-roledescription="carousel">
+          <button class="carousel__nav" type="button" data-dir="-1" aria-label="Previous">‹</button>
+          <div class="card carousel__card">
+            <p class="carousel__quote" aria-live="polite"></p>
+          </div>
+          <button class="carousel__nav" type="button" data-dir="1" aria-label="Next">›</button>
+          <p class="carousel__count"></p>
+        </div>
+      </section>
+
+      <!-- GALLERY -->
+      <section class="block" id="gallery">
+        <h2 class="label"><a href="#gallery">In the light <span>#</span></a></h2>
+        <div class="gallery" tabindex="0" aria-label="Product photos, scroll sideways">
+          <img src="assets/daylight.jpg" alt="SHOGA box in daylight with peach blossom" loading="lazy" />
+          <img src="assets/step-pour.jpg" alt="Collagen powder pouring into a glass of water" loading="lazy" />
+          <img src="assets/box-night.jpg" alt="SHOGA box in warm evening light" loading="lazy" />
+          <img src="assets/peach-macro.jpg" alt="Close-up of a dewy white peach" loading="lazy" />
+          <img src="assets/emboss.jpg" alt="Embossed wave lines on the SHOGA box" loading="lazy" />
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="block" id="faq">
+        <h2 class="label"><a href="#faq">Questions <span>#</span></a></h2>
+        <div class="faq">
+          <details><summary>How does the Ritual Club work?</summary><p>Your first box ships when you join. After that a fresh box ships every 30 days at 15% off, with free shipping. Skip, pause or cancel from your account before the next box ships.</p></details>
+          <details><summary>When will I notice a difference?</summary><p>Everyone's skin is different, so we don't promise overnight miracles. Collagen rewards consistency. We recommend the daily ritual for at least 8–12 weeks.</p></details>
+          <details><summary>Can I buy a single box?</summary><p>Yes. Choose "One box" when you join. It's a single 30-day box with no subscription.</p></details>
+          <details><summary>Can I take it with other supplements?</summary><p>Usually, yes. If you're pregnant, breastfeeding, taking medication or have a medical condition, check with your doctor first.</p></details>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="footer__cols">
+          <div><h3>Help</h3><a href="#faq">FAQ</a><a href="#faq">Delivery</a><a href="#faq">Returns</a></div>
+          <div><h3>SHOGA</h3><a href="#story">Our story</a><a href="#how">How it works</a><a href="#formula">Formula</a></div>
+          <div><h3>Follow</h3><a href="#top">Instagram</a><a href="#top">TikTok</a></div>
+        </div>
+        <form class="newsletter" novalidate>
+          <label for="email">Letters on confidence, once a month</label>
+          <div><input id="email" type="email" placeholder="Your email" autocomplete="email" required /><button type="submit">Sign up</button></div>
+          <p class="newsletter__msg" role="status"></p>
+        </form>
+        <p class="footer__legal">Copyright © <span id="year"></span> SHOGA Inc. · These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Mobile menu -->
+  <nav class="sheet-menu" aria-label="Sections" hidden>
+    <a href="#how">How it works</a>
+    <a href="#film">The ritual</a>
+    <a href="#white-peach">White Peach</a>
+    <a href="#formula">Formula</a>
+    <a href="#story">Our story</a>
+    <a href="#faq">Questions</a>
+  </nav>
+
+  <!-- Mobile join bar -->
+  <div class="joinbar">
+    <span><b data-price-sub></b> / month · Club open</span>
+    <button class="btn btn--join" type="button" data-join>Join <i class="dot"></i></button>
+  </div>
+
+  <!-- Join card (modal on desktop, bottom sheet on mobile) -->
+  <div class="scrim" hidden></div>
+  <div class="join" role="dialog" aria-modal="true" aria-labelledby="joinTitle" hidden>
+    <button class="join__close" type="button" aria-label="Close">×</button>
+    <h2 id="joinTitle">Join the Ritual Club</h2>
+    <p>Batch No. 01 · White Peach is shipping now. Choose how you'd like your ritual.</p>
+    <fieldset class="opts">
+      <legend class="sr-only">Plan</legend>
+      <label class="opt"><input type="radio" name="plan" value="sub" id="plan-sub" checked />
+        <span><b>Ritual Club</b><em>Every 30 days · Save 15% · Free shipping</em></span><strong data-price-sub></strong></label>
+      <label class="opt"><input type="radio" name="plan" value="once" id="plan-once" />
+        <span><b>One box</b><em>A single 30-day box</em></span><strong data-price-once></strong></label>
+    </fieldset>
+    <div class="join__qty">
+      <span>Boxes</span>
+      <div class="qty"><button type="button" data-q="-1" aria-label="Fewer boxes">−</button><output id="qty">1</output><button type="button" data-q="1" aria-label="More boxes">+</button></div>
+    </div>
+    <p class="join__meta"><span>Batch No. 01</span><span><i class="dot"></i> Club open</span></p>
+    <button class="btn btn--solid" type="button" id="addToCart">Add to cart · <span data-total></span></button>
+  </div>
+
+  <!-- Cart -->
+  <aside class="cart" aria-label="Cart" hidden>
+    <header><h2>Your ritual</h2><button class="join__close cart-close" type="button" aria-label="Close cart">×</button></header>
+    <div class="cart__items"></div>
+    <footer>
+      <p class="cart__row"><span>Subtotal</span><b data-subtotal>$0.00</b></p>
+      <button class="btn btn--solid" type="button" id="checkout">Checkout</button>
+    </footer>
+  </aside>
+
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <script src="main.js"></script>
+</body>
+</html>
