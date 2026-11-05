@@ -1,6 +1,9 @@
 # SHOGA v3
 
-Buy-first version of the SHOGA site, built for an older audience.
+Buy-first version of the SHOGA site, built for an older audience, in a ledger
+style: a fixed status sidebar (product, next delivery, monthly delivery open,
+always-visible BUY button) beside labelled sections of cream cards and framed
+black-and-white photographs on stone.
 
 - `index.html` — the Buy page (first page): product, monthly or one box, quantity, one huge BUY NOW button
 - `ritual.html` — The Ritual: three steps and the ritual film

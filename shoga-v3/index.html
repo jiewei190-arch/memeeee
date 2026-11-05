@@ -5,100 +5,113 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Buy SHOGA White Peach Collagen</title>
   <meta name="description" content="SHOGA White Peach Collagen. One sachet a day. Monthly delivery, cancel anytime." />
-  <meta name="theme-color" content="#0d0c0b" />
+  <meta name="theme-color" content="#d1ccc4" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Jost:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="preload" as="image" href="assets/bw-pour.jpg" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body data-page="buy">
   <a class="skip" href="#main">Skip to content</a>
-
-  <header class="header">
-    <a href="index.html" class="logo" aria-label="SHOGA, buy page">SHOGA</a>
-    <nav class="nav" aria-label="Pages">
-      <a href="index.html" aria-current="page">Buy</a>
-      <a href="ritual.html">The Ritual</a>
-      <a href="ingredients.html">Ingredients</a>
-    </nav>
-    <button class="cartbtn" type="button">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
-      <span class="cartbtn__label">Cart</span><span class="cartbtn__n">0</span>
-    </button>
-  </header>
-  <nav class="tabs" aria-label="Pages">
-    <a href="index.html" aria-current="page">Buy</a>
-    <a href="ritual.html">The Ritual</a>
-    <a href="ingredients.html">Ingredients</a>
-  </nav>
-
-  <main id="main">
-    <section class="buy" aria-labelledby="productTitle">
-      <div class="buy__media">
-        <img src="assets/bw-pour.jpg" alt="The SHOGA White Peach box beside a glass as a sachet of collagen is poured in" />
+  <div class="frame">
+    <!-- Sidebar (desktop) / top bar (phones) -->
+    <aside class="side">
+      <div class="side__top">
+        <a href="index.html" class="logo" aria-label="SHOGA, buy page">SHOGA</a>
+        <button class="cartbtn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          <span class="cartbtn__label">Cart</span><span class="cartbtn__n">0</span>
+        </button>
       </div>
 
-      <div class="buy__panel">
-        <p class="eyebrow">SHOGA Collagen</p>
-        <h1 class="buy__title" id="productTitle">White Peach Collagen</h1>
-        <p class="buy__sub">One sachet a day, mixed into water. 30 sachets in every box.</p>
+      <dl class="status">
+        <div class="status__product"><dt>Product</dt><dd>White Peach Collagen</dd></div>
+        <div><dt>Next delivery</dt><dd class="next-ship">—</dd></div>
+        <div class="status__open"><dt>Monthly delivery</dt><dd><span class="open"><i></i>Open</span></dd></div>
+      </dl>
 
-        <fieldset class="choices">
-          <legend class="sr-only">How would you like to buy?</legend>
-          <label class="choice">
-            <input type="radio" name="plan" value="sub" id="plan-sub" checked />
-            <span><b>Monthly delivery <span class="tag">Save 15%</span></b><em>Free shipping · cancel anytime</em></span>
-            <strong data-price-sub></strong>
-          </label>
-          <label class="choice">
-            <input type="radio" name="plan" value="once" id="plan-once" />
-            <span><b>One box</b><em>Buy once, no monthly delivery</em></span>
-            <strong data-price-once></strong>
-          </label>
-        </fieldset>
+      <nav class="nav" aria-label="Pages">
+        <a href="index.html" aria-current="page">Buy</a>
+        <a href="ritual.html">The Ritual</a>
+        <a href="ingredients.html">Ingredients</a>
+      </nav>
 
-        <div class="qtyrow">
-          <span id="qtyLabel">Number of boxes</span>
-          <div class="qty" role="group" aria-labelledby="qtyLabel">
-            <button type="button" data-q="-1" aria-label="One fewer box">−</button>
-            <output id="qty" aria-live="polite">1</output>
-            <button type="button" data-q="1" aria-label="One more box">+</button>
+      <div class="side__buy">
+        <p class="side__price"><b data-price-sub></b> a month</p>
+        <button class="btn btn--buy" type="button" data-buy>Buy now</button>
+      </div>
+    </aside>
+
+    <div class="col">
+      <p class="notice">Free shipping on monthly delivery · Cancel anytime</p>
+      <nav class="tabs" aria-label="Pages">
+        <a href="index.html" aria-current="page">Buy</a>
+        <a href="ritual.html">The Ritual</a>
+        <a href="ingredients.html">Ingredients</a>
+      </nav>
+
+      <main id="main">
+        <h2 class="label"><span>White Peach Collagen</span><span class="label__hash" aria-hidden="true">#</span></h2>
+        <section class="buy" aria-labelledby="productTitle">
+          <figure class="frame-img buy__media">
+            <img src="assets/bw-pour.jpg" alt="The SHOGA White Peach box beside a glass as a sachet of collagen is poured in" />
+          </figure>
+
+          <div class="card buy__card">
+            <h1 class="buy__title" id="productTitle">White Peach Collagen</h1>
+            <p class="buy__sub">One sachet a day, mixed into water. 30 sachets in every box.</p>
+
+            <fieldset class="choices">
+              <legend class="sr-only">How would you like to buy?</legend>
+              <label class="choice">
+                <input type="radio" name="plan" value="sub" id="plan-sub" checked />
+                <span><b>Monthly delivery <span class="tag">Save 15%</span></b><em>Free shipping · cancel anytime</em></span>
+                <strong data-price-sub></strong>
+              </label>
+              <label class="choice">
+                <input type="radio" name="plan" value="once" id="plan-once" />
+                <span><b>One box</b><em>Buy once, no monthly delivery</em></span>
+                <strong data-price-once></strong>
+              </label>
+            </fieldset>
+
+            <div class="qtyrow">
+              <span id="qtyLabel">Number of boxes</span>
+              <div class="qty" role="group" aria-labelledby="qtyLabel">
+                <button type="button" data-q="-1" aria-label="One fewer box">−</button>
+                <output id="qty" aria-live="polite">1</output>
+                <button type="button" data-q="1" aria-label="One more box">+</button>
+              </div>
+            </div>
+
+            <button class="btn btn--buy btn--huge" type="button" id="buyNow">Buy now <small data-total></small></button>
           </div>
-        </div>
+        </section>
 
-        <button class="btn btn--buy" type="button" id="buyNow">Buy now <small data-total></small></button>
+        <h2 class="label"><span>Learn more</span><span class="label__hash" aria-hidden="true">#</span></h2>
+        <section class="doors" aria-label="Learn more">
+          <a class="door" href="ritual.html">
+            <figure class="frame-img"><img src="assets/bw-sachet.jpg" alt="" loading="lazy" /></figure>
+            <span class="door__text"><b>The Ritual</b><em>How to take it, in three steps →</em></span>
+          </a>
+          <a class="door" href="ingredients.html">
+            <figure class="frame-img"><img src="assets/peach-box.jpg" alt="" loading="lazy" /></figure>
+            <span class="door__text"><b>Ingredients</b><em>What's inside each sachet →</em></span>
+          </a>
+        </section>
+      </main>
 
-        <ul class="promise">
-          <li>Cancel anytime</li>
-          <li>One sachet a day</li>
-          <li>30 sachets per box</li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="doors" aria-label="Learn more">
-      <a class="door" href="ritual.html">
-        <img src="assets/bw-sachet.jpg" alt="" loading="lazy" />
-        <h2>The Ritual</h2>
-        <span>How to take it →</span>
-      </a>
-      <a class="door" href="ingredients.html">
-        <img src="assets/peach-box.jpg" alt="" loading="lazy" />
-        <h2>Ingredients</h2>
-        <span>What's inside →</span>
-      </a>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <nav aria-label="Footer">
-      <a href="index.html">Buy</a>
-      <a href="ritual.html">The Ritual</a>
-      <a href="ingredients.html">Ingredients</a>
-    </nav>
-    <p>© <span class="year"></span> SHOGA Inc. These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. If you take medication or have a medical condition, ask your doctor before use.</p>
-  </footer>
+      <footer class="footer">
+        <nav aria-label="Footer">
+          <a href="index.html">Buy</a>
+          <a href="ritual.html">The Ritual</a>
+          <a href="ingredients.html">Ingredients</a>
+        </nav>
+        <p>© <span class="year"></span> SHOGA Inc. These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. If you take medication or have a medical condition, ask your doctor before use.</p>
+      </footer>
+    </div>
+  </div>
 
   <div class="buybar" aria-hidden="true">
     <span class="buybar__price"><b data-price-sub></b>a month</span>
@@ -111,7 +124,7 @@
     <div class="cart__items"></div>
     <div class="cart__foot">
       <p class="cart__total"><span>Total</span><b data-subtotal>$0.00</b></p>
-      <button class="btn btn--buy" type="button" id="checkout">Checkout</button>
+      <button class="btn btn--buy btn--huge" type="button" id="checkout">Checkout</button>
       <button class="cart__keep" type="button">Keep shopping</button>
     </div>
   </aside>

@@ -6,85 +6,89 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Ingredients · SHOGA</title>
   <meta name="description" content="What's inside SHOGA White Peach Collagen: collagen, vitamin C, hyaluronic acid and white peach." />
-  <meta name="theme-color" content="#0d0c0b" />
+  <meta name="theme-color" content="#d1ccc4" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Jost:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body data-page="ingredients">
   <a class="skip" href="#main">Skip to content</a>
+  <div class="frame">
+    <!-- Sidebar (desktop) / top bar (phones) -->
+    <aside class="side">
+      <div class="side__top">
+        <a href="index.html" class="logo" aria-label="SHOGA, buy page">SHOGA</a>
+        <button class="cartbtn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          <span class="cartbtn__label">Cart</span><span class="cartbtn__n">0</span>
+        </button>
+      </div>
 
-  <header class="header">
-    <a href="index.html" class="logo" aria-label="SHOGA, buy page">SHOGA</a>
-    <nav class="nav" aria-label="Pages">
-      <a href="index.html">Buy</a>
-      <a href="ritual.html">The Ritual</a>
-      <a href="ingredients.html" aria-current="page">Ingredients</a>
-    </nav>
-    <button class="cartbtn" type="button">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
-      <span class="cartbtn__label">Cart</span><span class="cartbtn__n">0</span>
-    </button>
-  </header>
-  <nav class="tabs" aria-label="Pages">
-    <a href="index.html">Buy</a>
-    <a href="ritual.html">The Ritual</a>
-    <a href="ingredients.html" aria-current="page">Ingredients</a>
-  </nav>
+      <dl class="status">
+        <div class="status__product"><dt>Product</dt><dd>White Peach Collagen</dd></div>
+        <div><dt>Next delivery</dt><dd class="next-ship">—</dd></div>
+        <div class="status__open"><dt>Monthly delivery</dt><dd><span class="open"><i></i>Open</span></dd></div>
+      </dl>
 
-  <main id="main">
-    <header class="page-head">
-      <p class="eyebrow">Ingredients</p>
-      <h1>Four things.<br/>Nothing extra.</h1>
-      <p>Here is everything in each sachet.</p>
-    </header>
+      <nav class="nav" aria-label="Pages">
+        <a href="index.html">Buy</a>
+        <a href="ritual.html">The Ritual</a>
+        <a href="ingredients.html" aria-current="page">Ingredients</a>
+      </nav>
 
-    <ul class="ingredients">
-      <li>
-        <h2>Collagen</h2>
-        <p>The protein your skin is built on.</p>
-      </li>
-      <li>
-        <h2>Vitamin C</h2>
-        <p>Helps your body make its own collagen.</p>
-      </li>
-      <li>
-        <h2>Hyaluronic acid</h2>
-        <p>Helps your skin hold on to moisture.</p>
-      </li>
-      <li class="peach">
-        <img src="assets/peach-box.jpg" alt="The SHOGA White Peach box among fresh white peaches" loading="lazy" />
-        <div>
-          <h2>White peach</h2>
-          <p>Natural flavour. Soft, ripe and easy to drink every day.</p>
-        </div>
-      </li>
-    </ul>
+      <div class="side__buy">
+        <p class="side__price"><b data-price-sub></b> a month</p>
+        <button class="btn btn--buy" type="button" data-buy>Buy now</button>
+      </div>
+    </aside>
 
-    <ul class="facts" aria-label="Good to know">
-      <li>No added sugar</li>
-      <li>No artificial colours</li>
-      <li>Gluten free</li>
-      <li>30 sachets per box</li>
-    </ul>
+    <div class="col">
+      <p class="notice">Free shipping on monthly delivery · Cancel anytime</p>
+      <nav class="tabs" aria-label="Pages">
+        <a href="index.html">Buy</a>
+        <a href="ritual.html">The Ritual</a>
+        <a href="ingredients.html" aria-current="page">Ingredients</a>
+      </nav>
 
-    <section class="buyband">
-      <h2>Try it for a month.</h2>
-      <p>Monthly delivery from <b data-price-sub></b>. Cancel anytime.</p>
-      <a class="btn btn--buy" href="index.html">Buy now</a>
-    </section>
-  </main>
+      <main id="main">
+        <h2 class="label"><span>Ingredients</span><span class="label__hash" aria-hidden="true">#</span></h2>
+        <header class="page-head">
+          <h1>Four things. Nothing extra.</h1>
+          <p>Here is everything in each sachet.</p>
+        </header>
 
+        <section class="ingredients">
+          <div class="card ledger">
+            <p class="ledger__head"><span>White Peach Collagen</span><span>Per sachet</span></p>
+            <dl>
+              <div><dt>Collagen</dt><dd>The protein your skin is built on.</dd></div>
+              <div><dt>Vitamin C</dt><dd>Helps your body make its own collagen.</dd></div>
+              <div><dt>Hyaluronic acid</dt><dd>Helps your skin hold on to moisture.</dd></div>
+              <div><dt>White peach</dt><dd>Natural flavour. Soft and easy to drink.</dd></div>
+            </dl>
+            <p class="ledger__foot">No added sugar · No artificial colours · Gluten free</p>
+          </div>
+          <figure class="frame-img ingredients__img"><img src="assets/peach-box.jpg" alt="The SHOGA White Peach box among fresh white peaches" loading="lazy" /></figure>
+        </section>
 
-  <footer class="footer">
-    <nav aria-label="Footer">
-      <a href="index.html">Buy</a>
-      <a href="ritual.html">The Ritual</a>
-      <a href="ingredients.html">Ingredients</a>
-    </nav>
-    <p>© <span class="year"></span> SHOGA Inc. These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. If you take medication or have a medical condition, ask your doctor before use.</p>
-  </footer>
+        <section class="card buyband">
+          <h2>Try it for a month.</h2>
+          <p>Monthly delivery from <b data-price-sub></b>. Cancel anytime.</p>
+          <a class="btn btn--buy btn--huge" href="index.html">Buy now</a>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <nav aria-label="Footer">
+          <a href="index.html">Buy</a>
+          <a href="ritual.html">The Ritual</a>
+          <a href="ingredients.html">Ingredients</a>
+        </nav>
+        <p>© <span class="year"></span> SHOGA Inc. These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. If you take medication or have a medical condition, ask your doctor before use.</p>
+      </footer>
+    </div>
+  </div>
 
   <div class="buybar" aria-hidden="true">
     <span class="buybar__price"><b data-price-sub></b>a month</span>
@@ -97,7 +101,7 @@
     <div class="cart__items"></div>
     <div class="cart__foot">
       <p class="cart__total"><span>Total</span><b data-subtotal>$0.00</b></p>
-      <button class="btn btn--buy" type="button" id="checkout">Checkout</button>
+      <button class="btn btn--buy btn--huge" type="button" id="checkout">Checkout</button>
       <button class="cart__keep" type="button">Keep shopping</button>
     </div>
   </aside>

@@ -25,10 +25,16 @@
   $$("[data-price-once]").forEach((el) => (el.textContent = fmt(CONFIG.price)));
   $$(".year").forEach((el) => (el.textContent = new Date().getFullYear()));
 
-  // Sticky mobile tabs sit right under the header
-  const header = $(".header");
-  const setHdr = () => document.documentElement.style.setProperty("--hdr-h", `${header.offsetHeight}px`);
-  setHdr(); new ResizeObserver(setHdr).observe(header);
+  // Phones: the sidebar becomes a top bar; tabs and section labels stick right under it
+  const side = $(".side");
+  const setSide = () => document.documentElement.style.setProperty("--side-h", `${side.offsetHeight}px`);
+  setSide(); new ResizeObserver(setSide).observe(side);
+
+  // Next monthly delivery: a plain date (boxes ship on the 1st)
+  const now = new Date();
+  let ship = new Date(now.getFullYear(), now.getMonth(), 1);
+  if (ship <= now) ship = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  $$(".next-ship").forEach((el) => (el.textContent = ship.toLocaleDateString("en-US", { weekday: "short", month: "long", day: "numeric" })));
 
   // ---------- Cart state (shared across pages) ----------
   const KEY = "shoga-v3-cart";
@@ -96,7 +102,7 @@
 
   // Buy bar: always shown on content pages; on the Buy page once its own button scrolls away
   const buybar = $(".buybar");
-  const phone = matchMedia("(max-width: 700px)");
+  const phone = matchMedia("(max-width: 760px)");
   if (buyNow) {
     // Desktop: show the bar once the page's own BUY button scrolls away. Phones: always.
     let past = false;
