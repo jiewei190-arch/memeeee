@@ -1,5 +1,10 @@
 # SHOGA — The Confidence Ritual
 
+Built for older customers: large, high-contrast type; calm motion (no custom
+cursor, smooth-scroll or pinned scenes); a Buy now button that is always on
+screen (header on desktop, bottom bar on phones); and every big button turns
+into Checkout once the cart has something in it.
+
 Static storefront for SHOGA White Peach Collagen. No build step — open `index.html`
 or serve the folder:
 
@@ -8,8 +13,8 @@ cd shoga && python3 -m http.server 8000
 ```
 
 ## Pages
-- `index.html` — Home: hero, manifesto, unboxing, ritual film, Ritual Club pitch
-- `shop.html` — product, Ritual Club subscription (default) and one-time purchase
+- `index.html` — Home: hero with Buy now, one-tap monthly box, promise, ritual film
+- `shop.html` — Buy page: monthly delivery (default) or one box, big Buy now
 - `ritual.html` — the three steps, four benefits, formula
 - `about.html` — story and FAQ
 
@@ -24,7 +29,6 @@ python3 build_pages.py   # after editing index.html's shell or anything in src/
 - `styles.css` — design system (colour tokens at the top)
 - `main.js` — loader, cursor, scroll scenes, gallery, cart. **Prices live in `PRODUCT` at the top.**
 - `assets/` — images at native resolution and the ritual video (with audio for the film's sound toggle)
-- `vendor/lenis.min.js` — Lenis 1.1.13 smooth-scroll (MIT), bundled locally
 
 ## Before going live
 - Set real prices in `main.js` (placeholders: $58 one-time, 15% off subscription).

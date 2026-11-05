@@ -9,8 +9,8 @@
   --cocoa-800: #261911;
   --cocoa-700: #3a281c;
   --cream: #efe6d6;
-  --cream-dim: #cbbda6;
-  --sand: #a8957c;
+  --cream-dim: #e2d6c3;   /* brighter for readability */
+  --sand: #cbbba4;
   --peach: #f2b8a0;
   --gold: #c9a678;
   --line: rgba(239, 230, 214, 0.16);
@@ -627,3 +627,162 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 /* Inner pages start close to the nav so the product is above the fold */
 .page > .shop:first-child, .page > .about:first-child { padding-top: clamp(24px, 4vw, 56px); }
+
+/* =====================================================================
+   Easy buying for older customers
+   Large type, strong contrast, calm motion, one big peach BUY button.
+   ===================================================================== */
+:root { --buy: #f2b8a0; --buy-hi: #f7cbb7; --on-buy: #1b120c; }
+body { font-size: 19px; font-weight: 400; line-height: 1.65; }
+.grain { opacity: .04; animation: none; }
+.skip { position: absolute; left: 12px; top: -80px; z-index: 300; padding: 12px 18px; background: var(--cream); color: var(--ink); border-radius: 6px; }
+.skip:focus { top: 12px; }
+:focus-visible { outline: 3px solid var(--buy); outline-offset: 3px; }
+.eyebrow { font-size: 14px; letter-spacing: .2em; color: var(--cream-dim); }
+.lead, .about__body p:not(.eyebrow), .club-steps p, .step p, .ing p, .feel p:last-child, .accordion details p { color: var(--cream-dim); font-size: 19px; }
+
+/* Everything that used to wait for the intro animation is simply visible */
+.hero__eyebrow, .hero__sub, .hero .btn, .benefits li { opacity: 1 !important; transform: none !important; }
+.reveal { transform: translateY(16px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+.reveal.in { transform: none; }
+
+/* Buttons */
+.btn--buy { background: var(--buy); color: var(--on-buy); border-radius: 10px; font-size: 16px; font-weight: 500; letter-spacing: .14em; min-height: 54px; padding: 0 26px; }
+.btn--buy::before { display: none; }
+.btn--buy:hover { background: var(--buy-hi); color: var(--on-buy); }
+.btn--huge { min-height: 76px; padding: 0 44px; font-size: clamp(22px, 2vw, 26px); letter-spacing: .2em; box-shadow: 0 18px 40px -18px rgba(242, 184, 160, .6); }
+.btn--huge small { font-size: .64em; letter-spacing: .06em; font-weight: 400; margin-left: 6px; }
+.btn--block { width: 100%; }
+.btn.is-checkout { background: var(--buy); color: var(--on-buy); }
+.link { color: var(--buy); }
+
+/* Header: logo, plain links, Cart, and a Buy now button that never hides */
+.nav { padding-block: 18px; }
+.nav.is-hidden { transform: none; }
+.nav__logo { font-size: 20px; }
+.nav__links a { font-size: 15px; letter-spacing: .12em; color: var(--cream); }
+.nav__links a[aria-current="page"]::after { transform: scaleX(1); }
+.nav__actions { gap: 12px; }
+.cartbtn { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 14px; border: 1px solid rgba(239,230,214,.4); border-radius: 10px; font-size: 15px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; }
+.cartbtn svg { width: 22px; height: 22px; }
+.cartbtn .cart-count { position: static; transform: none; min-width: 24px; height: 24px; line-height: 24px; border-radius: 12px; font-size: 13px; background: var(--cream); color: var(--ink); }
+.cartbtn.is-full { background: var(--buy); border-color: var(--buy); color: var(--on-buy); }
+.cartbtn.is-full .cart-count { background: var(--on-buy); color: var(--buy); }
+.nav__buy { min-height: 48px; }
+
+/* Hero */
+.hero { min-height: min(100svh, 900px); }
+.hero__title { display: block; font-size: clamp(3.4rem, 12vw, 10rem); letter-spacing: .12em; margin-right: -.12em; }
+.hero__sub { font-size: clamp(17px, 1.8vw, 22px); letter-spacing: .08em; text-transform: none; color: var(--cream); margin: 1.4rem 0 2rem; }
+.hero__note { margin-top: 16px; font-size: 17px; color: var(--cream-dim); }
+.hero__note b { color: var(--cream); font-weight: 500; }
+.benefits li { font-size: 14px; letter-spacing: .14em; color: var(--cream); }
+.benefits svg { width: 34px; height: 34px; }
+
+/* Home: simple buy box */
+.easybuy { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 96px); align-items: center; padding: clamp(72px, 10vw, 140px) var(--gutter); background: var(--cocoa-900); }
+.easybuy__img { margin: 0; overflow: hidden; border-radius: 6px; }
+.easybuy__img img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.easybuy__body { display: grid; gap: 18px; justify-items: start; }
+.easybuy__body .display { margin: 0; font-size: clamp(2.6rem, 4.6vw, 4.2rem); }
+.ticks { list-style: none; margin: 4px 0; padding: 0; display: grid; gap: 10px; font-size: 20px; }
+.ticks li::before { content: "✓"; color: var(--buy); margin-right: 12px; font-weight: 500; }
+.easybuy__price { font-size: 18px; color: var(--cream-dim); }
+.easybuy__price b { font-family: var(--serif); font-weight: 500; font-size: 2.6rem; color: var(--cream); margin-right: 6px; }
+.easybuy__price s { margin-left: 8px; }
+.easybuy .btn--huge { width: min(100%, 460px); }
+.easybuy__alt { font-size: 17px; color: var(--cream-dim); }
+
+.promise { padding: clamp(64px, 9vw, 120px) var(--gutter); text-align: center; background: var(--cocoa-950); }
+.promise__text { max-width: 30ch; margin: 0 auto; font-family: var(--serif); font-weight: 300; font-size: clamp(2rem, 3.6vw, 3.2rem); line-height: 1.2; }
+.promise__text em { color: var(--buy); }
+
+/* Film captions bigger, sound button easier to hit */
+.film__cap h3 { font-size: clamp(2.4rem, 5vw, 4.4rem); }
+.film__cap .eyebrow { font-size: 15px; color: var(--buy); }
+.film__sound { min-height: 52px; padding: 0 20px 0 14px; font-size: 14px; color: var(--cream); background: rgba(20,12,7,.6); }
+.final__title { margin-bottom: 2rem; }
+.final__inner { display: grid; justify-items: center; }
+
+/* Buy page */
+.plan__name { font-size: 18px; letter-spacing: .06em; }
+.plan__price { font-size: 1.9rem; }
+.plan__note, .plan__perks { font-size: 16px; color: var(--cream-dim); }
+.plan__badge { font-size: 12px; }
+.plan__box { padding: 20px 22px; border-width: 2px; }
+.plan__name::before { width: 18px; height: 18px; }
+.facts span { font-size: 14px; color: var(--cream-dim); }
+.qtyrow { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; font-size: 18px; }
+.qtyrow .qty { height: 56px; border-width: 2px; border-radius: 10px; }
+.qty button { width: 56px; font-size: 26px; }
+.qty output { min-width: 36px; font-size: 20px; }
+.buy { display: block; }
+.accordion summary { font-size: 16px; letter-spacing: .12em; padding: 20px 0; min-height: 56px; }
+.accordion--lg summary { font-size: clamp(1.4rem, 2.4vw, 1.9rem); }
+.shop__thumbs button { min-height: 56px; }
+
+/* Ritual page: no pinned or sideways scrolling, just stacked cards */
+.buying { height: auto; }
+.buying__sticky { position: static; height: auto; padding: clamp(72px, 9vw, 120px) 0; overflow: visible; }
+.buying__track { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px var(--gutter); transform: none !important; }
+.feel { grid-template-columns: 1fr; gap: 20px; }
+.feel__img img, .feel__body { translate: none !important; transform: none; }
+.buying__progress, .buying__track::after { display: none; }
+.step, .steps { translate: none !important; transform: none !important; }
+.strip .btn--huge { width: auto; }
+
+/* Footer and legal text readable */
+.footer__cols h4 { font-size: 13px; color: var(--cream-dim); }
+.footer__cols a { font-size: 17px; padding: 6px 0; color: var(--cream); }
+.footer__bottom { font-size: 15px; color: var(--cream-dim); }
+.disclaimer { font-size: 14px; }
+.footer__mark span { transform: none; }
+
+/* Cart: bigger everything, Checkout first */
+.cart { width: min(480px, 100%); }
+.cart__head h3 { font-size: 2.2rem; }
+.cart .icon-btn { width: 52px; height: 52px; }
+.citem { grid-template-columns: 80px 1fr; align-items: start; }
+.citem img { width: 80px; height: 80px; border-radius: 6px; }
+.citem h4 { font-size: 1.4rem; }
+.citem small { font-size: 16px; color: var(--cream-dim); }
+.citem__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; }
+.citem .qty { height: 48px; }
+.citem .qty button { width: 46px; font-size: 22px; }
+.citem__price { font-size: 20px; }
+.citem__remove { min-height: 44px; font-size: 15px; letter-spacing: .06em; text-transform: none; text-decoration: underline; color: var(--cream-dim); }
+.upsell { padding: 16px; border-width: 2px; }
+.upsell b { font-size: 16px; }
+.cart__row { font-size: 16px; }
+.cart__row b { font-size: 2rem; }
+.cart__note { font-size: 15px; color: var(--cream-dim); }
+.cart__empty p { font-size: 1.6rem; }
+.cart__keep { min-height: 52px; font-size: 17px; text-decoration: underline; text-underline-offset: 4px; color: var(--cream-dim); }
+.toast { font-size: 17px; border-radius: 10px; }
+
+/* Bottom BUY bar: phones only, always visible */
+@media (min-width: 861px) { .buybar { display: none !important; } }
+@media (max-width: 860px) {
+  body { font-size: 18px; }
+  .nav__buy { display: none; }
+  .cartbtn { min-height: 46px; padding: 0 12px; }
+  .cartbtn .cartbtn__label { display: none; }
+  .cartbtn.is-full .cartbtn__label { display: inline; }
+  .buybar { transform: none !important; }
+  .buybar .btn { flex: 1; max-width: 300px; min-height: 60px; font-size: 19px; }
+  .buybar__plan { font-size: 13px; color: var(--cream-dim); }
+  .buybar__info b { font-size: 1.6rem; }
+  .easybuy { grid-template-columns: 1fr; }
+  .buying__track { grid-template-columns: 1fr; }
+  .hero__title { letter-spacing: .08em; margin-right: -.08em; }
+  .footer { padding-bottom: 120px; }
+  .mobile-menu a { padding: 6px 0; }
+}
+
+/* Minimum readable size for small labels */
+.feel__tag, .free-from li, .plan__badge, .footer__cols h4, .buybar__plan, .cartbtn .cart-count { font-size: 14px; }
+.shop__info .display { font-size: clamp(2.6rem, 4.4vw, 4rem); margin-bottom: 1rem; }
+.shop__info .lead { margin-bottom: 1.4rem; }
+@media (max-width: 860px) {
+  .buybar .btn { white-space: nowrap; font-size: 17px; letter-spacing: .1em; padding: 0 18px; }
+}

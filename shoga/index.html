@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SHOGA — The Confidence Ritual</title>
-  <meta name="description" content="SHOGA White Peach Collagen. We don't sell collagen — we sell the confidence that comes with it. A daily beauty ritual from within." />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>SHOGA — White Peach Collagen</title>
+  <meta name="description" content="SHOGA White Peach Collagen. One sachet a day. Monthly delivery with free shipping, cancel anytime." />
   <meta name="theme-color" content="#120b07" />
-  <meta property="og:title" content="SHOGA — The Confidence Ritual" />
-  <meta property="og:description" content="Beauty ritual from within. White Peach Collagen." />
+  <meta property="og:title" content="SHOGA — White Peach Collagen" />
+  <meta property="og:description" content="One sachet a day. Monthly delivery, cancel anytime." />
   <meta property="og:image" content="assets/product-peach.jpg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,116 +15,100 @@
   <link rel="preload" as="image" href="assets/ritual-poster.jpg" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="is-loading" data-page="home">
-
-  <!-- Preloader (first visit per session only) -->
-  <div class="loader" aria-hidden="true">
-    <div class="loader__word">
-      <span>S</span><span>H</span><span>O</span><span>G</span><span>A</span>
-    </div>
-    <div class="loader__line"><i></i></div>
-    <p class="loader__sub">The Confidence Ritual</p>
-  </div>
-
-  <div class="progress" aria-hidden="true"><i></i></div>
+<body data-page="home">
+  <a class="skip" href="#main">Skip to content</a>
   <div class="grain" aria-hidden="true"></div>
-  <div class="cursor" aria-hidden="true"><span class="cursor__dot"></span><span class="cursor__ring"><em>View</em></span></div>
 
   <!-- Nav -->
   <header class="nav" id="top">
     <a href="index.html" class="nav__logo" aria-label="SHOGA home">SHOGA</a>
     <nav class="nav__links" aria-label="Primary">
-      <a href="shop.html">Shop</a>
+      <a href="shop.html">Buy</a>
       <a href="ritual.html">The Ritual</a>
-      <a href="ritual.html#formula">Formula</a>
+      <a href="ritual.html#formula">Ingredients</a>
       <a href="about.html">About</a>
     </nav>
     <div class="nav__actions">
-      <button class="icon-btn cart-toggle" aria-label="Open cart">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      <button class="cartbtn cart-toggle" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+        <span class="cartbtn__label">Cart</span>
         <span class="cart-count" data-count="0">0</span>
       </button>
-      <button class="icon-btn menu-toggle" aria-label="Open menu" aria-expanded="false">
+      <button class="btn btn--buy nav__buy" type="button" data-primary>Buy now</button>
+      <button class="icon-btn menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span>
       </button>
     </div>
   </header>
 
-  <div class="mobile-menu" aria-hidden="true" data-lenis-prevent>
-    <a href="shop.html">Shop</a>
+  <div class="mobile-menu" aria-hidden="true">
+    <a href="shop.html">Buy</a>
     <a href="ritual.html">The Ritual</a>
-    <a href="ritual.html#formula">Formula</a>
+    <a href="ritual.html#formula">Ingredients</a>
     <a href="about.html">About</a>
   </div>
 
-  <main>
+  <main id="main">
     <!-- HERO -->
     <section class="hero">
       <video class="hero__video" autoplay muted loop playsinline preload="auto" poster="assets/ritual-poster.jpg">
         <source src="assets/ritual.mp4" type="video/mp4" />
       </video>
       <div class="hero__shade"></div>
-      <div class="hero__beam"></div>
-      <div class="hero__light"></div>
 
       <div class="hero__content">
         <p class="eyebrow hero__eyebrow">The Confidence Ritual</p>
-        <h1 class="hero__title" aria-label="SHOGA">
-          <span><b>S</b></span><span><b>H</b></span><span><b>O</b></span><span><b>G</b></span><span><b>A</b></span>
-        </h1>
-        <p class="hero__sub">Beauty ritual from within</p>
-        <a href="shop.html" class="btn btn--outline magnetic">
-          <span>Shop White Peach</span>
-          <svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M0 6h22M17 1l5 5-5 5"/></svg>
-        </a>
+        <h1 class="hero__title">SHOGA</h1>
+        <p class="hero__sub">White Peach Collagen. One sachet a day.</p>
+        <button class="btn btn--buy btn--huge" type="button" data-primary>Buy now</button>
+        <p class="hero__note">From <b data-price-sub-only></b> a month · Free shipping · Cancel anytime</p>
       </div>
 
       <ul class="benefits">
         <li>
-          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 10c4-3 6-3 10 0s6 3 10 0 6-3 6-3M3 16c4-3 6-3 10 0s6 3 10 0 6-3 6-3M3 22c4-3 6-3 10 0s6 3 10 0 6-3 6-3"/></svg>
-          <span>Skin<br/>Elasticity</span>
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M3 10c4-3 6-3 10 0s6 3 10 0 6-3 6-3M3 16c4-3 6-3 10 0s6 3 10 0 6-3 6-3M3 22c4-3 6-3 10 0s6 3 10 0 6-3 6-3"/></svg>
+          <span>Skin elasticity</span>
         </li>
         <li>
-          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1"><path d="M16 3c1 8 5 12 13 13-8 1-12 5-13 13-1-8-5-12-13-13 8-1 12-5 13-13z"/></svg>
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M16 3c1 8 5 12 13 13-8 1-12 5-13 13-1-8-5-12-13-13 8-1 12-5 13-13z"/></svg>
           <span>Radiance</span>
         </li>
         <li>
-          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1"><path d="M16 3c5 8 9 12 9 17a9 9 0 0 1-18 0c0-5 4-9 9-17z"/><path d="M12 21a4 4 0 0 0 4 4"/></svg>
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M16 3c5 8 9 12 9 17a9 9 0 0 1-18 0c0-5 4-9 9-17z"/><path d="M12 21a4 4 0 0 0 4 4"/></svg>
           <span>Hydration</span>
         </li>
         <li>
-          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1"><path d="M16 5l12 6-12 6-12-6 12-6z"/><path d="M4 16l12 6 12-6M4 21l12 6 12-6"/></svg>
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M16 5l12 6-12 6-12-6 12-6z"/><path d="M4 16l12 6 12-6M4 21l12 6 12-6"/></svg>
           <span>Firmness</span>
         </li>
       </ul>
-
-      <a href="#manifesto" class="scroll-cue" aria-label="Scroll down"><span></span></a>
     </section>
 
-    <!-- MANIFESTO -->
-    <section class="manifesto" id="manifesto">
-      <div class="manifesto__sticky">
-        <p class="eyebrow">Our honest confession</p>
-        <p class="manifesto__text" data-words>
-          We were never really selling collagen. We're selling the second glance in the mirror. The bare shoulder. The photo you don't retake. The room you walk into first. <em>Collagen is just how we get you there.</em>
-        </p>
+    <!-- BUY BOX: the simplest way to buy -->
+    <section class="easybuy" aria-labelledby="easybuyTitle">
+      <figure class="easybuy__img"><img src="assets/product-peach.jpg" alt="The SHOGA White Peach Collagen box with fresh peaches" loading="lazy" /></figure>
+      <div class="easybuy__body">
+        <p class="eyebrow reveal">The easiest way to buy</p>
+        <h2 class="display reveal" id="easybuyTitle">A fresh box <em>every month.</em></h2>
+        <ul class="ticks reveal">
+          <li>30 sachets in every box, one a day</li>
+          <li>Save 15% compared with a single box</li>
+          <li>Free shipping to your door</li>
+          <li>Skip or cancel anytime</li>
+        </ul>
+        <p class="easybuy__price reveal"><b data-price-sub-only></b> a month <s data-price-once></s></p>
+        <button class="btn btn--buy btn--huge reveal" type="button" data-quick-buy="sub">Buy now</button>
+        <p class="easybuy__alt reveal">Prefer a single box? <a class="link" href="shop.html">Choose one box</a></p>
       </div>
     </section>
 
-    <!-- UNBOX (pinned zoom scene) -->
-    <section class="unbox" aria-label="The box">
-      <div class="unbox__sticky">
-        <div class="unbox__media"><img src="assets/product-peach.jpg" alt="SHOGA Collagen White Peach box among fresh peaches" loading="lazy" /></div>
-        <div class="unbox__shade"></div>
-        <h2 class="unbox__title">
-          <span class="unbox__line">It's not a box.</span>
-          <span class="unbox__line"><em>It's a turning point.</em></span>
-        </h2>
-        <p class="unbox__cap">30 mornings of choosing yourself</p>
-      </div>
+    <!-- PROMISE -->
+    <section class="promise">
+      <p class="eyebrow reveal">Our promise</p>
+      <p class="promise__text reveal">We were never really selling collagen. We're selling the feeling of liking what you see in the mirror. <em>One simple habit, every morning.</em></p>
     </section>
 
-    <!-- FILM: autoplaying ritual video with timed chapters -->
+    <!-- FILM: plays by itself with chapter captions -->
     <section class="film" id="film" aria-label="The ritual film">
       <video class="film__video" muted loop playsinline preload="metadata" poster="assets/step-box.jpg">
         <source src="assets/ritual.mp4" type="video/mp4" />
@@ -132,118 +116,78 @@
       <div class="film__shade"></div>
 
       <div class="film__cap" data-in="0.2" data-out="3.1">
-        <p class="eyebrow">Chapter I · 07:00</p>
-        <h3>Every morning<br/><em>starts the same.</em></h3>
+        <p class="eyebrow">Step 1</p>
+        <h3>Open one sachet.</h3>
       </div>
       <div class="film__cap" data-in="3.2" data-out="5.5">
-        <p class="eyebrow">Chapter II · Tear, pour</p>
-        <h3>Ten seconds.<br/><em>One glass.</em></h3>
+        <p class="eyebrow">Step 2</p>
+        <h3>Pour it into<br/><em>cold water.</em></h3>
       </div>
       <div class="film__cap" data-in="5.6" data-out="7.2">
-        <p class="eyebrow">Chapter III · Sip</p>
-        <h3>Ripe white peach.<br/><em>Nothing else.</em></h3>
+        <p class="eyebrow">Step 3</p>
+        <h3>Stir and <em>enjoy.</em></h3>
       </div>
 
       <div class="film__hud">
         <button class="film__sound" type="button" aria-pressed="false">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="film__wave" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/><path class="film__mute" d="M16 9l5 6M21 9l-5 6"/></svg>
-          <span>Sound off</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="film__wave" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/><path class="film__mute" d="M16 9l5 6M21 9l-5 6"/></svg>
+          <span>Turn sound on</span>
         </button>
-        <span class="film__time" aria-hidden="true">00:00</span>
-        <span class="film__bar" aria-hidden="true"><i></i></span>
-        <span aria-hidden="true">00:10</span>
-      </div>
-    </section>
-
-    <!-- RITUAL CLUB teaser -->
-    <section class="club-teaser">
-      <div class="club-teaser__img" data-cursor="view"><img src="assets/hold.jpg" alt="A woman holding the SHOGA beauty ritual box" loading="lazy" /></div>
-      <div class="club-teaser__body">
-        <p class="eyebrow reveal">The Ritual Club</p>
-        <h2 class="display reveal">Confidence,<br/><em>on repeat.</em></h2>
-        <p class="lead reveal">Collagen works when you keep showing up. Join the Ritual Club and a fresh box lands every 30 days, so the habit never breaks.</p>
-        <ul class="perks reveal">
-          <li>Save 15% on every box</li>
-          <li>Free shipping, always</li>
-          <li>Skip, pause or cancel in two clicks</li>
-        </ul>
-        <div class="club-teaser__price reveal"><span data-price-sub-only></span><small>per month · was <s data-price-once></s></small></div>
-        <a href="shop.html" class="btn btn--solid magnetic reveal"><span>Join the Ritual Club</span><svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M0 6h22M17 1l5 5-5 5"/></svg></a>
-      </div>
-    </section>
-
-    <!-- AFFIRMATIONS MARQUEE -->
-    <section class="marquee" aria-label="Affirmations">
-      <div class="marquee__row">
-        <div class="marquee__inner">
-          <span>I walked in first</span><i>✦</i><span>No filter tonight</span><i>✦</i><span>Shoulders back</span><i>✦</i><span>Seen up close</span><i>✦</i><span>Bare-faced Sunday</span><i>✦</i>
-          <span>I walked in first</span><i>✦</i><span>No filter tonight</span><i>✦</i><span>Shoulders back</span><i>✦</i><span>Seen up close</span><i>✦</i><span>Bare-faced Sunday</span><i>✦</i>
-        </div>
-      </div>
-      <div class="marquee__row marquee__row--rev">
-        <div class="marquee__inner">
-          <span>Took the photo</span><i>✦</i><span>Kept it</span><i>✦</i><span>Said yes to the dress</span><i>✦</i><span>Glowing, not trying</span><i>✦</i><span>Main character</span><i>✦</i>
-          <span>Took the photo</span><i>✦</i><span>Kept it</span><i>✦</i><span>Said yes to the dress</span><i>✦</i><span>Glowing, not trying</span><i>✦</i><span>Main character</span><i>✦</i>
-        </div>
       </div>
     </section>
 
     <!-- FINAL CTA -->
     <section class="final">
-      <div class="final__bg"><img src="assets/product-peach.jpg" alt="" loading="lazy" /></div>
+      <div class="final__bg"><img src="assets/hold.jpg" alt="" loading="lazy" /></div>
       <div class="final__inner">
-        <p class="eyebrow reveal">Your move</p>
-        <h2 class="final__title reveal">Buy the box.<br/><em>Keep the confidence.</em></h2>
-        <a href="shop.html" class="btn btn--solid magnetic reveal"><span>Start the Ritual</span><svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M0 6h22M17 1l5 5-5 5"/></svg></a>
+        <h2 class="final__title reveal">Start your ritual <em>today.</em></h2>
+        <button class="btn btn--buy btn--huge reveal" type="button" data-primary>Buy now</button>
+        <p class="hero__note reveal">From <b data-price-sub-only></b> a month · Cancel anytime</p>
       </div>
     </section>
   </main>
 
   <footer class="footer">
     <div class="footer__top">
-      <form class="newsletter" novalidate>
-        <p class="eyebrow">Join the Ritual</p>
-        <h3>Letters on confidence, early drops, 10% off your first box.</h3>
-        <div class="newsletter__field">
-          <label for="email" class="sr-only">Email address</label>
-          <input id="email" type="email" placeholder="Your email" autocomplete="email" required />
-          <button type="submit" aria-label="Subscribe"><svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M0 6h22M17 1l5 5-5 5"/></svg></button>
-        </div>
-        <p class="newsletter__msg" role="status"></p>
-      </form>
       <div class="footer__cols">
-        <div><h4>Shop</h4><a href="shop.html">White Peach Collagen</a><a href="shop.html#club">Ritual Club</a><a href="shop.html">Gift a Ritual</a></div>
-        <div><h4>SHOGA</h4><a href="about.html">About</a><a href="ritual.html#formula">Formula</a><a href="ritual.html">The Ritual</a></div>
-        <div><h4>Help</h4><a href="about.html#faq">FAQ</a><a href="shop.html#shipping">Shipping</a><a href="shop.html#club">Manage subscription</a></div>
+        <div><h4>Shop</h4><a href="shop.html">Buy White Peach Collagen</a><a href="shop.html#club">How monthly delivery works</a></div>
+        <div><h4>SHOGA</h4><a href="about.html">About us</a><a href="ritual.html">The Ritual</a><a href="ritual.html#formula">Ingredients</a></div>
+        <div><h4>Help</h4><a href="about.html#faq">Questions</a><a href="shop.html#shipping">Shipping</a></div>
       </div>
     </div>
     <div class="footer__mark" aria-hidden="true"><span>S</span><span>H</span><span>O</span><span>G</span><span>A</span></div>
     <div class="footer__bottom">
       <p>© <span id="year"></span> SHOGA Inc. Beauty ritual from within.</p>
-      <p class="disclaimer">These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. Food supplements should not replace a varied, balanced diet and healthy lifestyle.</p>
+      <p class="disclaimer">These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease. If you take medication or have a medical condition, please ask your doctor before use.</p>
     </div>
   </footer>
 
+  <!-- Phones: BUY bar always at the bottom of the screen -->
+  <div class="buybar">
+    <div class="buybar__info"><span class="buybar__plan">Monthly delivery</span><b data-price-sub-only></b></div>
+    <button class="btn btn--buy" type="button" data-primary>Buy now</button>
+  </div>
+
   <!-- Cart drawer -->
   <div class="scrim" hidden></div>
-  <aside class="cart" aria-label="Shopping cart" aria-hidden="true">
+  <aside class="cart" aria-label="Your cart" aria-hidden="true">
     <header class="cart__head">
-      <h3>Your Ritual</h3>
-      <button class="icon-btn cart-close" aria-label="Close cart">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M5 5l14 14M19 5L5 19"/></svg>
+      <h3>Your cart</h3>
+      <button class="icon-btn cart-close" type="button" aria-label="Close cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 5l14 14M19 5L5 19"/></svg>
       </button>
     </header>
-    <div class="cart__items" data-lenis-prevent></div>
+    <div class="cart__items"></div>
     <footer class="cart__foot">
-      <div class="cart__row"><span>Subtotal</span><b data-subtotal>$0.00</b></div>
-      <p class="cart__note">Taxes calculated at checkout. Free shipping on Ritual Club orders.</p>
-      <button class="btn btn--solid btn--block" id="checkout"><span>Checkout</span></button>
+      <div class="cart__row"><span>Total</span><b data-subtotal>$0.00</b></div>
+      <p class="cart__note">Free shipping on monthly delivery.</p>
+      <button class="btn btn--buy btn--huge btn--block" id="checkout">Checkout</button>
+      <button class="cart__keep" type="button">Keep shopping</button>
     </footer>
   </aside>
 
   <div class="toast" role="status" aria-live="polite"></div>
 
-  <script src="vendor/lenis.min.js"></script>
   <script src="main.js"></script>
 </body>
 </html>
